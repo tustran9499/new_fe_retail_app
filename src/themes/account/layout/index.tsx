@@ -17,7 +17,7 @@ export default function AccountLayout() {
               render={item.component}
             />
           ))}
-        {/* <Route component={PageNotFound} /> */}
+        <Route component={PageNotFound} />
       </Switch>
     </Suspense>
   );

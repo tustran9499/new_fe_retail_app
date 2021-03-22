@@ -11,4 +11,14 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/login',
+    name: 'account.login',
+    title: 'Login',
+    exact: true,
+    permission: '',
+    component: React.lazy(() => import('../pages/Login')),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];
