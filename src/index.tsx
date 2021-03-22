@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./index.css";
@@ -8,18 +8,16 @@ import AccountLayout from "./themes/account/layout";
 
 ReactDOM.render(
   <React.StrictMode>
-    <>
-      <BrowserRouter>
-        <Switch>
-          <Route
-            path="/account"
-            render={(props: any) => <AccountLayout {...props} exact />}
-          />
-          <Route path="/" render={(props: any) => <App {...props} exact />} />
-        </Switch>
-      </BrowserRouter>
-    </>
-  </React.StrictMode>,
+    <BrowserRouter>
+      <Switch>
+        <Route
+          path="/account"
+          render={(props: any) => <AccountLayout {...props} exact />}
+        />
+        <Route path="/" render={(props: any) => <App {...props} exact />} />
+      </Switch>
+    </BrowserRouter>
+  </React.StrictMode >,
   document.getElementById("root")
 );
 
