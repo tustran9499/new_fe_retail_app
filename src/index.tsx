@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AccountLayout from "./themes/account/layout";
+import ProductLayout from "./themes/product/layout";
 import "./themes/style.scss";
 
 ReactDOM.render(
@@ -15,6 +16,10 @@ ReactDOM.render(
           <Route
             path="/account"
             render={(props: any) => <AccountLayout {...props} exact />}
+          />
+          <Route
+            path="/product"
+            render={(props: any) => <ProductLayout {...props} exact />}
           />
           <Route path="/" render={(props: any) => <App {...props} exact />} />
         </Switch>
