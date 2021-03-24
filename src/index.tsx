@@ -5,19 +5,22 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AccountLayout from "./themes/account/layout";
+import "./themes/style.scss";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Switch>
-        <Route
-          path="/account"
-          render={(props: any) => <AccountLayout {...props} exact />}
-        />
-        <Route path="/" render={(props: any) => <App {...props} exact />} />
-      </Switch>
+      <Suspense fallback={<div>Loading... </div>}>
+        <Switch>
+          <Route
+            path="/account"
+            render={(props: any) => <AccountLayout {...props} exact />}
+          />
+          <Route path="/" render={(props: any) => <App {...props} exact />} />
+        </Switch>
+      </Suspense>
     </BrowserRouter>
-  </React.StrictMode >,
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
