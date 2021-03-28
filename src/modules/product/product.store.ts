@@ -20,6 +20,28 @@ class ProductStore {
     }
 
     @action
+    async createProducts(product: Product) {
+        await productService.createProduct(product);
+        let data: any = [];
+        data = await productService.getProductsPagination(this.pageNum, this.pageSize);
+        this.products = data.items;
+        this.totalCount = data.meta.totalItems;
+        // this.pageNum = data.meta.currentPage;
+        // this.pageSize = data.meta.itemCount;
+    }
+
+    @action
+    async updateProducts(id: number, product: Product) {
+        await productService.updateProduct(id, product);
+        let data: any = [];
+        data = await productService.getProductsPagination(this.pageNum, this.pageSize);
+        this.products = data.items;
+        this.totalCount = data.meta.totalItems;
+        // this.pageNum = data.meta.currentPage;
+        // this.pageSize = data.meta.itemCount;
+    }
+
+    @action
     async changePage(page: number, pageSize: number) {
         let data: any = [];
         this.pageNum = page;
@@ -29,6 +51,17 @@ class ProductStore {
         this.totalCount = data.meta.totalItems;
         // this.pageNum = data.meta.currentPage;
         // this.pageSize = data.meta.itemCount;
+    }
+
+    @action
+    async deleteProduct(Id: number) {
+        let data: any = [];
+        await productService.deleteProducts(Id);
+        data = await productService.getProductsPagination(this.pageNum, this.pageSize);
+        this.products = data.items;
+        this.totalCount = data.meta.totalItems;
+        this.pageNum = data.meta.currentPage;
+        this.pageSize = data.meta.itemCount;
     }
 }
 
