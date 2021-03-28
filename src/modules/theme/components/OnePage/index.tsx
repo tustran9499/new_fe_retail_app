@@ -26,7 +26,7 @@ const OnePage = (props: ComponentProps) => {
       >
         <div className="main">
           <header className="header">
-            <a href="/" title="Retail System" className="logo">
+            <a href="/" title="Retail System" className="logo" style={{display: 'none'}}>
               <img alt="Retail System Logo" src={logo} />
             </a>
             <div className="header-title">{title}</div>
