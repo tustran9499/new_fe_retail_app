@@ -63,3 +63,15 @@ export interface UpdateCompany {
   address: string;
   licenseNo: string;
 }
+export interface AccountsActionsDto {
+  label: string;
+  status: string;
+  action: any;
+}
+export interface NewAccountDto {
+  email: string;
+  fName: string;
+  lName: string;
+  homePhone: string;
+  type: any;
+}
