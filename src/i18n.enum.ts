@@ -5,6 +5,7 @@ export enum I18N {
     ADMIN_NEW_ACCOUNT = 'New Account',
     ADMIN_EDIT_ACCOUNT = 'Edit Account',
     ADMIN_MANAGE_ACCOUNT = 'Manage Accounts',
+    ADMIN_MANAGE_PRODUCT = 'Manage Products',
     ACCOUNT_FNAME = 'First name',
     ACCOUNT_LNAME = 'Last name',
     ACCOUNT_PHONE = 'Phone number',

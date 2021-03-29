@@ -11,4 +11,14 @@ export const productsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/product/manage',
+    name: 'Manage Products',
+    title: 'Manage Products',
+    exact: true,
+    permission: '',
+    component: React.lazy(() => import('../../../modules/admin-product/pages/Manage')),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];

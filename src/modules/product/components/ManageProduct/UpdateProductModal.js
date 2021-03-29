@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import { Button, Modal, Form, Input, Radio } from "antd";
 // import CreateUserForm from "./CreateUserForm";
 import "antd/dist/antd.css";
+// import './style.css';
 import {
     Form,
     Input,
@@ -46,6 +47,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
 
     return (
         <Modal
+
             visible={visible}
             title="Update product"
             okText="Create"
@@ -208,6 +210,8 @@ const UpdateProductModal = (pros) => {
         <div>
             {/* <h6>this.pros.record<h6/> */}
             <Button
+                style={{ background: "#fab91a", border: "none", "border-radius": "4px" }}
+                className="p-2 h-100"
                 type="primary"
                 onClick={() => {
                     setVisible(true);

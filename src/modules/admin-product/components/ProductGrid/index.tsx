@@ -5,9 +5,11 @@ import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space } from 'a
 import { ExclamationCircleOutlined, AudioOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
-import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
-import CreateProductModal from "../../../../modules/product/components/ManageProduct/CreateProductModal";
+// import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
+// import CreateProductModal from "../../../../modules/product/components/ManageProduct/CreateProductModal";
 import { autorun } from 'mobx'
+import AdminWrapper from "../AdminWrapper";
+import { I18N } from "../../../../i18n.enum";
 
 interface Product {
   Id: number;
@@ -22,7 +24,13 @@ interface Product {
 
 const { confirm } = Modal;
 
-
+const {
+  ADMIN_MANAGE_PRODUCT,
+  BUTTONS_ADD_NEW,
+  MESSAGES_CREATED_SUCCESS,
+  MESSAGES_UPDATE_SUCCESS,
+  BUTTONS_RESTORE,
+} = I18N;
 
 const HomePage = () => {
   const productStore = React.useContext(ProductStoreContext);
@@ -39,19 +47,6 @@ const HomePage = () => {
     };
     getProducts();
   }, [productStore]);
-
-  // const getProducts = async () => {
-  //   await productStore.getProducts(pagination.PageNo, pagination.PageSize);
-  //   setProducts(productStore.products);
-  //   setTotal(productStore.totalCount);
-  //   setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-  // };
-
-  // React.useEffect(
-  //   () =>
-  //     autorun(() => getProducts()),
-  //   [], // note empty dependencies
-  // )
 
   const showTotal = (total: number) => {
     return `Total ${total} items`;
@@ -124,10 +119,8 @@ const HomePage = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <UpdateProductModal record={record} />
+          {/* <UpdateProductModal record={record} /> */}
           <Button
-            style={{}}
-            className="p-2 h-100"
             type="primary"
             danger
             onClick={() => showPromiseConfirm(record)}
@@ -141,28 +134,30 @@ const HomePage = () => {
 
   return (
     <>
-      <div style={{ background: "white" }}>
-        {console.log(products)}
-        {/* <Row style={{ marginLeft: '10px' }}>Home Page</Row>
-        <Row style={{ marginLeft: '10px' }}>Test products</Row> */}
-        <br />
-        <CreateProductModal />
-        <br />
-        <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
-        <br />
-        <Row>
-          <Col span={18} offset={6}>
-            <Pagination
-              showQuickJumper
-              defaultCurrent={1}
-              total={total}
-              showTotal={showTotal}
-              defaultPageSize={10}
-              onChange={onChange}
-            />
-          </Col>
-        </Row>
-      </div>
+      <AdminWrapper pageTitle={(ADMIN_MANAGE_PRODUCT)}>
+        <div style={{ background: "white", minHeight: "1000px" }}>
+          {console.log(products)}
+          <Row style={{ marginLeft: '10px' }}>Home Page</Row>
+          <Row style={{ marginLeft: '10px' }}>Test products</Row>
+          <br />
+          {/* <CreateProductModal /> */}
+          <br />
+          <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
+          <br />
+          <Row>
+            <Col span={18} offset={6}>
+              <Pagination
+                showQuickJumper
+                defaultCurrent={1}
+                total={total}
+                showTotal={showTotal}
+                defaultPageSize={10}
+                onChange={onChange}
+              />
+            </Col>
+          </Row>
+        </div>
+      </AdminWrapper>
     </>
   );
 };

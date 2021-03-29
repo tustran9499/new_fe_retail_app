@@ -3,6 +3,7 @@ import React, { useState } from "react";
 // import { insertUsersApi } from "../../api/user";
 // import CreateUserForm from "./CreateUserForm";
 import "antd/dist/antd.css";
+import './style.css';
 import {
     Form,
     Input,
@@ -68,6 +69,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
 
     return (
         <Modal
+            style={{ "border-radius": "25px" }}
             visible={visible}
             title="Create a new collection"
             okText="Create"
@@ -220,6 +222,8 @@ const CreateProductModal = () => {
         <div>
             <Button
                 type="primary"
+                style={{ background: "#fab91a", border: "none", "border-radius": "10px" }}
+                className="p-2 h-100"
                 onClick={() => {
                     setVisible(true);
                 }}
@@ -233,7 +237,7 @@ const CreateProductModal = () => {
                     setVisible(false);
                 }}
             />
-        </div>
+        </div >
     );
 };
 
