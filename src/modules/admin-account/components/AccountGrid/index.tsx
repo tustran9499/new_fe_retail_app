@@ -1,10 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { Container, Row, Col, Table, Form, Button } from 'react-bootstrap';
-import Paging from '../../../../common/components/Paging';
-import { pageSizeOptions } from '../../../../common/constants/paging.constants';
-import { AccountsActionsDto } from '../../../account/account.dto';
-import { AdminStoreContext } from '../../admin.store';
+import React from "react";
+import { observer } from "mobx-react-lite";
+import { Container, Row, Col, Table, Form, Button } from "react-bootstrap";
+import Paging from "../../../../common/components/Paging";
+import { pageSizeOptions } from "../../../../common/constants/paging.constants";
+import { AccountsActionsDto } from "../../../account/account.dto";
+import { AdminStoreContext } from "../../admin.store";
+import ConfirmModal from "../../../../common/components/ConfirmModal";
 
 /*
  * Props of Component
@@ -19,6 +20,8 @@ interface ComponentProps {
   handleChangePageItem?: any;
   handleEdit?: any;
   handleDelete?: any;
+  currentId: number;
+  criteriaDto: any;
 }
 
 const AdminAccountGrid = (props: ComponentProps) => {
@@ -35,6 +38,8 @@ const AdminAccountGrid = (props: ComponentProps) => {
     handleChangePageItem,
     handleEdit,
     handleDelete,
+    currentId,
+    criteriaDto,
   } = props;
 
   const [totals, setTotals] = React.useState<number>(0);
@@ -49,7 +54,11 @@ const AdminAccountGrid = (props: ComponentProps) => {
 
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
-  const [currentPageFrame, setCurrentPageFrame] = React.useState<number>(1);
+  const [currentPageFrame, setCurrentPageFrame] = React.useState<number>(1);  
+
+  const [showConfirmPopup, setShowConfirmPopup] = React.useState<boolean>(
+    false
+  );
 
   const maxPage: number = 4;
 
@@ -74,19 +83,31 @@ const AdminAccountGrid = (props: ComponentProps) => {
     getAccounts();
   }, [adminStore, totals]);
 
+  /*Confirm modal*/
+  const handleOk = async () => {
+    setShowConfirmPopup(false);
+    await adminStore.deleteAccount(currentId);
+    adminStore.getAccounts(criteriaDto.skip, criteriaDto.take);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmPopup(false);
+  };
+  /*End Confirm modal*/
+
   return (
     <>
       {items && (
         <Container
           fluid
-          className={`block-orders ${className ? className : ''}`}
+          className={`block-orders ${className ? className : ""}`}
           style={style}
         >
           <Row>
             {title && (
               <Col xs={12}>
                 <h3 className="block-title">
-                  {title ? title : ('Manage Accounts')}
+                  {title ? title : "Manage Accounts"}
                 </h3>
               </Col>
             )}
@@ -102,7 +123,7 @@ const AdminAccountGrid = (props: ComponentProps) => {
                   <thead>
                     <tr>
                       <th>
-                        <span>{('Id')}</span>
+                        <span>{"Id"}</span>
                       </th>
                       <th>Name</th>
                       <th>Email</th>
@@ -115,13 +136,15 @@ const AdminAccountGrid = (props: ComponentProps) => {
                     {items.map((item: any, index: number) => (
                       <tr key={item.Id}>
                         <td>{item.Id}</td>
-                        <td>{item.FName} {item.LName}</td>
+                        <td>
+                          {item.FName} {item.LName}
+                        </td>
                         <td>{item.Email}</td>
                         <td>{item.Homephone}</td>
                         <td>{item.Type}</td>
                         <td className="col-actions">
                           <Button
-                            variant='primary'
+                            variant="primary"
                             onClick={() => handleEdit(item.Id)}
                             className="btn-icon"
                             size="lg"
@@ -129,8 +152,10 @@ const AdminAccountGrid = (props: ComponentProps) => {
                             <i className="ico ico-edit"></i>
                           </Button>
                           <Button
-                            variant='primary'
-                            onClick={() => {handleDelete(item.Id)}}
+                            variant="primary"
+                            onClick={() => {
+                              handleDelete(item.Id, setShowConfirmPopup);
+                            }}
                             className="btn-icon"
                             size="lg"
                           >
@@ -144,6 +169,12 @@ const AdminAccountGrid = (props: ComponentProps) => {
               </Form>
             </Col>
           </Row>
+          <ConfirmModal
+            show={showConfirmPopup}
+            handleCancel={handleCancel}
+            handleOk={handleOk}
+            children={<strong>Do you want to delete this item?</strong>}
+          ></ConfirmModal>
           {children}
           {totalPage > 1 && (
             <>

@@ -7,7 +7,7 @@ class AuthenticateService {
 
   public async login(model: LoginDto) {
     const result = await http.post(`${this.accountPrefix}/login`, model);
-    return result.data?.result;
+    return result.data;
   }
 
   public async validateToken(token: string) {

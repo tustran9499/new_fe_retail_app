@@ -28,7 +28,7 @@ export default class AuthenticationStore {
   }
 
   @action
-  async login(history: any, url: string) {
+  async login(history: any, url: string, setShowLoginFailAlert: any) {
     const data = await authenticateService.login(this.loginFormValue);
     if (data) {
       this._setCurrentInfo(data);
@@ -69,6 +69,7 @@ export default class AuthenticationStore {
   }
 
   private _redirectAfterLogin(history: any, url: string) {
+    console.log(url);
     return history.push(url);
   }
 
