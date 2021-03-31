@@ -25,20 +25,30 @@ const { confirm } = Modal;
 
 
 const HomePage = () => {
+
   const productStore = React.useContext(ProductStoreContext);
   const [products, setProducts] = React.useState<any[]>([]);
   const [total, setTotal] = React.useState<number>();
   const [pagination, setPagination] = React.useState<any>({ PageNo: 1, PageSize: 10 });
-
+  productStore.getProducts(pagination.PageNo, pagination.PageSize);
+  const getProducts = async () => {
+    // await productStore.getProducts(pagination.PageNo, pagination.PageSize);
+    setProducts(productStore.products);
+    setTotal(productStore.totalCount);
+    setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+  };
+  const initfunc = async () => {
+    await productStore.getProducts(pagination.PageNo, pagination.PageSize);
+    setProducts(productStore.products);
+    setTotal(productStore.totalCount);
+    setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+  }
   React.useEffect(() => {
-    const getProducts = async () => {
-      await productStore.getProducts(pagination.PageNo, pagination.PageSize);
-      setProducts(productStore.products);
-      setTotal(productStore.totalCount);
-      setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-    };
+    initfunc();
+  }, []);
+  React.useEffect(() => {
     getProducts();
-  }, [productStore]);
+  }, [productStore, productStore.products]);
 
   // const getProducts = async () => {
   //   await productStore.getProducts(pagination.PageNo, pagination.PageSize);
@@ -76,11 +86,11 @@ const HomePage = () => {
       content: "Warning: The delete product cannot be recover",
       onOk() {
         productStore.deleteProduct(row.Id);
-        return new Promise((resolve, reject) => {
-          setProducts(productStore.products);
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
-        }).catch(() => console.log("opps error"));
-
+        // return new Promise((resolve, reject) => {
+        //   setProducts(productStore.products);
+        //   setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
+        // }).catch(() => console.log("opps error"));
+        setProducts(productStore.products);
       },
       onCancel() { },
     });
@@ -138,6 +148,9 @@ const HomePage = () => {
       ),
     },
   ];
+
+  // getProducts();
+  const initf = () => { productStore.getProducts(pagination.PageNo, pagination.PageSize); };
 
   return (
     <>

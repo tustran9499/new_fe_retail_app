@@ -1,9 +1,10 @@
 export interface Product {
+  Id: number;
   ProductName: string;
   CategoryId: number;
   QuantityPerUnit: string;
   UnitPrice: number;
-  UnitInStock: number;
+  UnitsInStock: number;
   ReorderLevel: number;
-  Discontinued: number;
+  Discontinued: boolean;
 }
