@@ -31,4 +31,14 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/register',
+    name: 'account.register',
+    title: 'Register',
+    exact: true,
+    permission: '',
+    component: React.lazy(() => import('../pages/Create')),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];

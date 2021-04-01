@@ -1,4 +1,4 @@
-import { MESSAGE_TYPE } from '@/modules/message/message.enum';
+import { MESSAGE_TYPE } from "./message.enum";
 
 export interface MessageDto {
   key: string;
