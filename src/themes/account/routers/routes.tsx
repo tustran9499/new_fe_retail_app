@@ -41,4 +41,15 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/verify-email/:token',
+    name: 'account.verified',
+    title:'Account verification',
+    exact: true,
+    component: React.lazy(
+      () => import('../pages/VerifiedEmail')
+    ),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];

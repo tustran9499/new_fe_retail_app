@@ -17,13 +17,14 @@ const LoginAccountPage = () => {
    * @params: void
    * @return: void
    */
-  const handleLogin = (values: any) => {
+  const handleLogin = async (values: any) => {
     const loginFormValue: LoginDto = {
       email: values.email,
       password: values.password,
     };
     authenticationStore.setLoginFormValue(loginFormValue);
-    authenticationStore.login(history, DEFAULT_ROUTERS.ACCOUNT_MANAGE, setShowAlert);
+    await authenticationStore.login(history, DEFAULT_ROUTERS.ACCOUNT_MANAGE, setShowAlert);
+    //console.log(authenticationStore.loggedUser);
   };
 
   /*
