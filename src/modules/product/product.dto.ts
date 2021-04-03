@@ -7,4 +7,5 @@ export interface Product {
   UnitsInStock: number;
   ReorderLevel: number;
   Discontinued: boolean;
+  PhotoURL: string;
 }

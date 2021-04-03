@@ -4,6 +4,15 @@ import { Product } from "./product.dto";
 class ProductService {
   productPrefix: string = "http://localhost:4000/api" + "/products";
 
+  public async getOneProduct(id: number) {
+    await console.log("is before sending");
+    await console.log(id);
+    const result = await http.get(`${this.productPrefix}/${id}`, {
+      headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
+    });
+    return result.data;
+  }
+
   public async getAllProducts() {
     const result = await http.get(`${this.productPrefix}/`, {
       headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },

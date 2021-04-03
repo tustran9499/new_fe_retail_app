@@ -20,6 +20,7 @@ import {
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ProductStoreContext } from "../../product.store";
+import UploadAvatarDynamic from "./UploadAvatarDynamic";
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -65,6 +66,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
                     });
             }}
         >
+            <UploadAvatarDynamic record={record} />
 
             <Form
                 {...formItemLayout}
@@ -196,6 +198,11 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
 
 const UpdateProductModal = (pros) => {
     const productStore = React.useContext(ProductStoreContext);
+    console.log("now record")
+    console.log(pros.record);
+    if (!pros.record.PhotoURL) {
+        pros.record["PhotoURL"] = "default.png";
+    }
     console.log(pros.record);
     const [visible, setVisible] = useState(false);
 
@@ -208,7 +215,7 @@ const UpdateProductModal = (pros) => {
 
     return (
         <div>
-            {/* <h6>this.pros.record<h6/> */}
+
             <Button
                 style={{ background: "#fab91a", border: "none", "border-radius": "4px" }}
                 className="p-2 h-100"

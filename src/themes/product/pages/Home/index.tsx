@@ -1,8 +1,8 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { ProductStoreContext } from "../../../../modules/product/product.store";
-import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space } from 'antd';
-import { ExclamationCircleOutlined, AudioOutlined } from "@ant-design/icons";
+import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar } from 'antd';
+import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
 import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
@@ -25,7 +25,6 @@ const { confirm } = Modal;
 
 
 const HomePage = () => {
-
   const productStore = React.useContext(ProductStoreContext);
   const [products, setProducts] = React.useState<any[]>([]);
   const [total, setTotal] = React.useState<number>();
@@ -152,6 +151,14 @@ const HomePage = () => {
   // getProducts();
   const initf = () => { productStore.getProducts(pagination.PageNo, pagination.PageSize); };
 
+  const callback = (key: any) => {
+    console.log(key);
+  }
+
+  const { TabPane } = Tabs;
+  const { Meta } = Card;
+
+
   return (
     <>
       <div style={{ background: "white" }}>
@@ -161,7 +168,52 @@ const HomePage = () => {
         <br />
         <CreateProductModal />
         <br />
-        <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Table" key="1">
+            <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
+          </TabPane>
+          <TabPane tab="Cards" key="2">
+            Content of Tab Pane 2
+             <Card
+              style={{ width: 300, marginTop: 16 }}
+              actions={[
+                <SettingOutlined key="setting" />,
+                <EditOutlined key="edit" />,
+                <EllipsisOutlined key="ellipsis" />,
+              ]}
+            >
+              <Skeleton loading={false} avatar active>
+                <Meta
+                  avatar={
+                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                  }
+                  title="Card title"
+                  description="This is the description"
+                />
+              </Skeleton>
+            </Card>
+            {products?.map((product: any) => (
+              <Card
+                style={{ width: 300, marginTop: 16 }}
+                actions={[
+                  <SettingOutlined key="setting" />,
+                  <EditOutlined key="edit" />,
+                  <EllipsisOutlined key="ellipsis" />,
+                ]}
+              >
+                <Skeleton loading={false} avatar active>
+                  <Meta
+                    avatar={
+                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    }
+                    title={product.ProductName}
+                    description="This is the description"
+                  />
+                </Skeleton>
+              </Card>
+            ))}
+          </TabPane>
+        </Tabs>
         <br />
         <Row>
           <Col span={18} offset={6}>
