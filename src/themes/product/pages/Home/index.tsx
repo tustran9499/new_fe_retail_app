@@ -1,8 +1,8 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { ProductStoreContext } from "../../../../modules/product/product.store";
-import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar } from 'antd';
-import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
+import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List } from 'antd';
+import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
 import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
@@ -112,6 +112,11 @@ const HomePage = () => {
       sorter: false,
     },
     {
+      title: "UnitPrice",
+      dataIndex: "UnitPrice",
+      sorter: false,
+    },
+    {
       title: "UnitsInStock",
       dataIndex: "UnitsInStock",
       sorter: false,
@@ -134,7 +139,8 @@ const HomePage = () => {
       render: (_, record) => (
         <Space size="middle">
           <UpdateProductModal record={record} />
-          <Button
+          <DeleteOutlined onClick={() => showPromiseConfirm(record)} />
+          {/* <Button
             style={{}}
             className="p-2 h-100"
             type="primary"
@@ -142,7 +148,7 @@ const HomePage = () => {
             onClick={() => showPromiseConfirm(record)}
           >
             Delete
-          </Button>
+          </Button> */}
         </Space>
       ),
     },
@@ -157,6 +163,10 @@ const HomePage = () => {
 
   const { TabPane } = Tabs;
   const { Meta } = Card;
+  const gridStyle = {
+    width: '50%',
+    border: "none",
+  };
 
 
   return (
@@ -173,45 +183,49 @@ const HomePage = () => {
             <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
           </TabPane>
           <TabPane tab="Cards" key="2">
-            Content of Tab Pane 2
-             <Card
-              style={{ width: 300, marginTop: 16 }}
-              actions={[
-                <SettingOutlined key="setting" />,
-                <EditOutlined key="edit" />,
-                <EllipsisOutlined key="ellipsis" />,
-              ]}
-            >
-              <Skeleton loading={false} avatar active>
-                <Meta
-                  avatar={
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  }
-                  title="Card title"
-                  description="This is the description"
-                />
-              </Skeleton>
-            </Card>
-            {products?.map((product: any) => (
-              <Card
-                style={{ width: 300, marginTop: 16 }}
-                actions={[
-                  <SettingOutlined key="setting" />,
-                  <EditOutlined key="edit" />,
-                  <EllipsisOutlined key="ellipsis" />,
-                ]}
-              >
-                <Skeleton loading={false} avatar active>
-                  <Meta
-                    avatar={
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    }
-                    title={product.ProductName}
-                    description="This is the description"
-                  />
-                </Skeleton>
-              </Card>
-            ))}
+            <List
+              grid={{
+                gutter: 16,
+                xs: 1,
+                sm: 2,
+                md: 2,
+                lg: 2,
+                xl: 3,
+                xxl: 4,
+              }}
+              dataSource={products}
+              renderItem={product => (
+                <List.Item>
+                  <Card
+                    style={{ width: 300, marginTop: 16 }}
+                    actions={[
+                      <UpdateProductModal record={product} />,
+                      <DeleteOutlined onClick={() => showPromiseConfirm(product)} />
+                    ]}
+                  >
+
+                    <Skeleton loading={false} avatar active>
+                      <Meta
+                        avatar={
+                          <Avatar shape="square" size={64} src={"http://127.0.0.1:4000/api/products/img/thumbnails-" + String(product.PhotoURL ? product.PhotoURL : "default.png")} />
+                        }
+                        title={product.ProductName}
+                        description={!product.Discontinued ? <Tag color="green">In stock</Tag> : <Tag color="red">Out of stock</Tag>}
+                      />
+                      <p>{product.QuantityPerUnit}</p>
+                      {/* <Card.Grid hoverable={false} style={gridStyle}>
+                        {product.QuantityPerUnit}
+                      </Card.Grid> */}
+                      {/* <Card.Grid style={gridStyle}>Content</Card.Grid>
+                      <Card.Grid style={gridStyle}>Content</Card.Grid>
+                      <Card.Grid style={gridStyle}>Content</Card.Grid>
+                      <Card.Grid style={gridStyle}>Content</Card.Grid> */}
+                    </Skeleton>
+
+                  </Card>
+                </List.Item>
+              )}
+            />,
           </TabPane>
         </Tabs>
         <br />

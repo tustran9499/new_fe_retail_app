@@ -18,6 +18,7 @@ import {
     Radio,
     Modal,
     InputNumber,
+    Switch,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ProductStoreContext } from "../../product.store";
@@ -66,6 +67,11 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
     const onFinish = (values) => {
         console.log("Received values of form: ", values);
     };
+    const [switchState, setSwitchState] = React.useState(false);
+    function onChange(checked) {
+        console.log(`switch to ${checked}`);
+        setSwitchState(checked);
+    }
 
     return (
         <Modal
@@ -189,18 +195,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
                     <InputNumber />
                 </Form.Item>
 
-                <Form.Item
-                    name="Discontinued"
-                    label="Discontinued"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'This is a required field!',
-                        },
-                    ]}
-                    hasFeedback
-                >
-                    <Input />
+                <Form.Item name="Discontinued"
+                    label="Discontinued">
+                    <Switch
+                        checkedChildren="Out Of Stock"
+                        unCheckedChildren="In Stock"
+                        checked={switchState}
+                        onChange={onChange}
+                    />
                 </Form.Item>
             </Form>
         </Modal>

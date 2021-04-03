@@ -17,8 +17,9 @@ import {
     Radio,
     Modal,
     InputNumber,
+    Switch,
 } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import { ProductStoreContext } from "../../product.store";
 import UploadAvatarDynamic from "./UploadAvatarDynamic";
 const formItemLayout = {
@@ -42,16 +43,21 @@ const formItemLayout = {
 
 const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
     const [form] = Form.useForm();
+    const [switchState, setSwitchState] = React.useState(record.Discontinued);
     const onFinish = (values) => {
         console.log("Received values of form: ", values);
     };
+    function onChange(checked) {
+        console.log(`switch to ${checked}`);
+        setSwitchState(checked);
+    }
 
     return (
         <Modal
 
             visible={visible}
             title="Update product"
-            okText="Create"
+            okText="Update"
             cancelText="Cancel"
             onCancel={onCancel}
             onOk={() => {
@@ -66,7 +72,6 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
                     });
             }}
         >
-            <UploadAvatarDynamic record={record} />
 
             <Form
                 {...formItemLayout}
@@ -92,7 +97,12 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
                 >
                     <InputNumber disabled={true} placeholder="Id" />
                 </Form.Item>
-
+                <Form.Item
+                    name="Image"
+                    label="Image"
+                >
+                    <UploadAvatarDynamic record={record} />
+                </Form.Item>
                 <Form.Item
                     name="ProductName"
                     label="Product Name"
@@ -178,18 +188,14 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
                     <InputNumber />
                 </Form.Item>
 
-                <Form.Item
-                    name="Discontinued"
-                    label="Discontinued"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'This is a required field!',
-                        },
-                    ]}
-                    hasFeedback
-                >
-                    <Input />
+                <Form.Item name="Discontinued"
+                    label="Discontinued">
+                    <Switch
+                        checkedChildren="Out Of Stock"
+                        unCheckedChildren="In Stock"
+                        checked={switchState}
+                        onChange={onChange}
+                    />
                 </Form.Item>
             </Form>
         </Modal>
@@ -216,7 +222,7 @@ const UpdateProductModal = (pros) => {
     return (
         <div>
 
-            <Button
+            {/* <Button
                 style={{ background: "#fab91a", border: "none", "border-radius": "4px" }}
                 className="p-2 h-100"
                 type="primary"
@@ -225,7 +231,10 @@ const UpdateProductModal = (pros) => {
                 }}
             >
                 Update
-      </Button>
+      </Button> */}
+            <EditOutlined onClick={() => {
+                setVisible(true);
+            }} />
             <CollectionCreateForm
                 visible={visible}
                 onCreate={onCreate}
