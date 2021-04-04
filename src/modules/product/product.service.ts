@@ -8,14 +8,14 @@ class ProductService {
     await console.log("is before sending");
     await console.log(id);
     const result = await http.get(`${this.productPrefix}/${id}`, {
-      headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
+
     });
     return result.data;
   }
 
   public async getAllProducts() {
     const result = await http.get(`${this.productPrefix}/`, {
-      headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
+
     });
     return result.data;
   }
@@ -24,7 +24,6 @@ class ProductService {
     console.log("Value before sending")
     console.log(product);
     const result = await http.post(`${this.productPrefix}/`, {
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
       ...product,
     });
     return result.data;
@@ -34,7 +33,6 @@ class ProductService {
     console.log("Value before sending")
     console.log(product);
     const result = await http.put(`${this.productPrefix}/${id}`, {
-      headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
       ...product,
     });
     return result.data;
@@ -42,7 +40,6 @@ class ProductService {
 
   public async getProductsPagination(skip: number, take: number) {
     const result = await http.get(`${this.productPrefix}/paginateProducts`, {
-      headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
       params: {
         page: skip,
         limit: take,
@@ -53,7 +50,6 @@ class ProductService {
 
   public async deleteProducts(id: number) {
     const result = await http.delete(`${this.productPrefix}/${id}`, {
-      headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJTdG9yZU1hbmFnZXIiLCJpYXQiOjE2MTY4NDc5NjgsImV4cCI6MTYxNjg1MTU2OH0.xbZahqNGXEPBsjwVu6csDdXdk98g-BWLhcn36Y-IUDA' },
     });
     return result.data;
   }
