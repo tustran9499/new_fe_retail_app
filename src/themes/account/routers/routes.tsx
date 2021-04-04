@@ -31,4 +31,36 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/register',
+    name: 'account.register',
+    title: 'Register',
+    exact: true,
+    permission: '',
+    component: React.lazy(() => import('../pages/Create')),
+    isLayout: false,
+    isGuarded: false,
+  },
+  {
+    path: '/account/verify-email/:token',
+    name: 'account.verified',
+    title:'Account verification',
+    exact: true,
+    component: React.lazy(
+      () => import('../pages/VerifiedEmail')
+    ),
+    isLayout: false,
+    isGuarded: false,
+  },
+  {
+    path: '/account/not-verified',
+    name: 'account.not-verified',
+    title:'Account not verified',
+    exact: true,
+    component: React.lazy(
+      () => import('../pages/NotVerifiedEmail')
+    ),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];

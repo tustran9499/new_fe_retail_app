@@ -6,7 +6,7 @@ const AdminFooter = () => {
   return (
     <>
       <div className="admin-footer">
-        <address>© 2021 From Tu and Ngan with <i className="fas fa-heartbeat" style={{color:'red'}}></i></address>
+        <address>© 2021 From Tu and Ngan with love <i className="fas fa-heartbeat" style={{color:'red'}}></i></address>
         <p className="admin-version">Version 1.0 </p>
       </div>
     </>

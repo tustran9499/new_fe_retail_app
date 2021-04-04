@@ -16,7 +16,7 @@ export interface SetPasswordDto {
 export interface CreateUserDto {
   email: string;
   password: string;
-  phoneNumber: string;
+  homephone: string;
 }
 
 export interface UserTableDto {
@@ -38,7 +38,7 @@ export interface UpdateAccountDto {
 export interface CreateEmployeeDto {
   email?: string;
   password?: string;
-  phoneNumber?: string;
+  homephone?: string;
   firstName?: string;
   lastName?: string;
   accountRole: 0;
@@ -53,7 +53,7 @@ export interface CompanyTableDto {
 }
 
 export interface UpdateAccountInfo {
-  phoneNumber: string;
+  homephone: string;
   cardNo: string;
 }
 

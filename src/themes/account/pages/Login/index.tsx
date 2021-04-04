@@ -6,6 +6,7 @@ import DefaultLoginForm from '../../../../modules/account/components/DefaultLogi
 import { DEFAULT_ROUTERS } from '../../../../modules/account/router.enum';
 import { AuthenticationStoreContext } from '../../../../modules/authenticate/authentication.store';
 import { LoginDto } from '../../../../modules/account/account.dto';
+import { Alert } from 'react-bootstrap';
 
 const LoginAccountPage = () => {
   const history = useHistory();
@@ -16,13 +17,14 @@ const LoginAccountPage = () => {
    * @params: void
    * @return: void
    */
-  const handleLogin = (values: any) => {
+  const handleLogin = async (values: any) => {
     const loginFormValue: LoginDto = {
       email: values.email,
       password: values.password,
     };
     authenticationStore.setLoginFormValue(loginFormValue);
-    authenticationStore.login(history, DEFAULT_ROUTERS.SETUP);
+    await authenticationStore.login(history, DEFAULT_ROUTERS.ACCOUNT_MANAGE, DEFAULT_ROUTERS.NOT_VERIFIED);
+    //console.log(authenticationStore.loggedUser);
   };
 
   /*
@@ -50,6 +52,24 @@ const LoginAccountPage = () => {
     password: '',
   });
 
+  const [showAlert, setShowAlert] = React.useState<boolean>(false);
+  
+  const LoginFailAlert = () => {
+    if (showAlert) {
+      return (
+        <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
+          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+          <p>
+            Change this and that and try again. Duis mollis, est non commodo
+            luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+            Cras mattis consectetur purus sit amet fermentum.
+          </p>
+        </Alert>
+      );
+    }
+    return <></>
+  }
+
   React.useEffect(() => {
     if (authenticationStore.tmpUser) {
       setUserEmail(authenticationStore.tmpUser.email);
@@ -71,6 +91,7 @@ const LoginAccountPage = () => {
           userEmail={userEmail}
           initialValues={initialValues}
         />
+        <LoginFailAlert />
       </OnePage>
     </>
   );

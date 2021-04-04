@@ -6,6 +6,8 @@ export enum DEFAULT_ROUTERS {
   SET_PASSWORD_TOKEN = '/account/set-password/:token',
   CREATE = '/account/register',
   SETUP = '/account/setup',
+  ACCOUNT_MANAGE = '/account/manage',
+  NOT_VERIFIED = '/account/not-verified',
   THANKYOU = '/account/thankyou/:action'
 }
 
@@ -14,7 +16,7 @@ export enum DEFAULT_ACTION_ROUTERS {
 }
 
 export enum DEFAULT_API {
-  PREFIX = 'api/acount',
+  PREFIX = '/accounts',
 }
 
 export enum VERIFIED_STATUS {

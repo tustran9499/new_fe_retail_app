@@ -7,6 +7,15 @@ import reportWebVitals from "./reportWebVitals";
 import AccountLayout from "./themes/account/layout";
 import ProductLayout from "./themes/product/layout";
 import "./themes/style.scss";
+import { cssTransition, ToastContainer } from "react-toastify";
+
+const Zoom = cssTransition({
+  enter: 'zoomIn',
+  exit: 'zoomOut',
+  // appendPosition: false,
+  // collapse: true,
+  // collapseDuration: 300,
+});
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +33,15 @@ ReactDOM.render(
           <Route path="/" render={(props: any) => <App {...props} exact />} />
         </Switch>
       </Suspense>
+      <ToastContainer
+        autoClose={2000}
+        position={'top-center'}
+        hideProgressBar={false}
+        transition={Zoom}
+        pauseOnHover={true}
+        closeOnClick={true}
+        rtl={false}
+      />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

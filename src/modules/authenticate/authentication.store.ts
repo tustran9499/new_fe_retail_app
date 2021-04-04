@@ -28,11 +28,12 @@ export default class AuthenticationStore {
   }
 
   @action
-  async login(history: any, url: string) {
+  async login(history: any, url: string, urlNotVerified: string) {
     const data = await authenticateService.login(this.loginFormValue);
     if (data) {
       this._setCurrentInfo(data);
-      this._redirectAfterLogin(history, url);
+      const redirectUrl = (this.loggedUser.EmailVerified) ? url : urlNotVerified;
+      this._redirectAfterLogin(history, redirectUrl);
     }
   }
 
@@ -69,6 +70,7 @@ export default class AuthenticationStore {
   }
 
   private _redirectAfterLogin(history: any, url: string) {
+    console.log(url);
     return history.push(url);
   }
 

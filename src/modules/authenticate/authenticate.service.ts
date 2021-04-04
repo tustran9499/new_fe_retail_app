@@ -7,7 +7,7 @@ class AuthenticateService {
 
   public async login(model: LoginDto) {
     const result = await http.post(`${this.accountPrefix}/login`, model);
-    return result.data?.result;
+    return result.data;
   }
 
   public async validateToken(token: string) {
@@ -25,9 +25,8 @@ class AuthenticateService {
   }
 
   public async validateEmailToken(token: string) {
-    const commonUserPrefix = 'api/user';
-    const result = await http.get(`${commonUserPrefix}/verify-email/${token}`);
-    return result.data?.result;
+    const result = await http.get(`${this.accountPrefix}/verify-email/${token}`);
+    return result.data;
   }
 }
 

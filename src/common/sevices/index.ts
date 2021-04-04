@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Errors } from '../../modules/messages/message.constants';
 import { handleResponseError } from '../utils/apis.util';
 import { removeFromStorage } from '../utils/storage.util';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: 'http://localhost:4000/api',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -55,6 +56,14 @@ axiosInstance.interceptors.response.use(
     } else {
       messageDetail = data.message;
       messageCode = data?.errorCode ?? '';
+    }
+
+    if (messageCode !== '') {
+      const error = Errors.find((error) => error.key === messageCode);
+      if (error) toast.error((error.label));
+      else toast.error(messageDetail);
+    } else {
+      toast.error(messageDetail);
     }
     
     if (error.response.status === 400) {
