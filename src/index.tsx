@@ -11,9 +11,9 @@ import { cssTransition, ToastContainer } from "react-toastify";
 const Zoom = cssTransition({
   enter: 'zoomIn',
   exit: 'zoomOut',
-  appendPosition: false,
-  collapse: true,
-  collapseDuration: 300,
+  // appendPosition: false,
+  // collapse: true,
+  // collapseDuration: 300,
 });
 
 ReactDOM.render(
@@ -25,7 +25,7 @@ ReactDOM.render(
             path="/account"
             render={(props: any) => <AccountLayout {...props} exact />}
           />
-          <Route path="/" render={(props: any) => <App {...props} exact />} />
+          <Route path="/" render={(props: any) => <AccountLayout {...props} exact />} />
         </Switch>
       </Suspense>
       <ToastContainer
@@ -34,6 +34,8 @@ ReactDOM.render(
             hideProgressBar={false}
             transition={Zoom}
             pauseOnHover={true}
+            closeOnClick={true}
+            rtl={false}
           />
     </BrowserRouter>
   </React.StrictMode>,

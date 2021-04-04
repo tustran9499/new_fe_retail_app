@@ -7,6 +7,7 @@ export enum DEFAULT_ROUTERS {
   CREATE = '/account/register',
   SETUP = '/account/setup',
   ACCOUNT_MANAGE = '/account/manage',
+  NOT_VERIFIED = '/account/not-verified',
   THANKYOU = '/account/thankyou/:action'
 }
 

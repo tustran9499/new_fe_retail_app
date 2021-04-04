@@ -52,4 +52,15 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/not-verified',
+    name: 'account.not-verified',
+    title:'Account not verified',
+    exact: true,
+    component: React.lazy(
+      () => import('../pages/NotVerifiedEmail')
+    ),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];

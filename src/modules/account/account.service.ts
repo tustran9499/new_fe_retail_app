@@ -22,6 +22,7 @@ class AccountService {
       `${this.accountPrefix}/`,
       excludedModel
     );
+    console.log(result)
     return result.data;
   }
 }

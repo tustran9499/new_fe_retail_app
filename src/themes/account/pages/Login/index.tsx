@@ -23,7 +23,7 @@ const LoginAccountPage = () => {
       password: values.password,
     };
     authenticationStore.setLoginFormValue(loginFormValue);
-    await authenticationStore.login(history, DEFAULT_ROUTERS.ACCOUNT_MANAGE, setShowAlert);
+    await authenticationStore.login(history, DEFAULT_ROUTERS.ACCOUNT_MANAGE, DEFAULT_ROUTERS.NOT_VERIFIED);
     //console.log(authenticationStore.loggedUser);
   };
 

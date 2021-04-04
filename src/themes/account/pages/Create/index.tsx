@@ -5,8 +5,8 @@ import { AccountStoreContext } from '../../../../modules/account/account.store';
 import OnePage from '../../../../modules/theme/components/OnePage';
 import DefaultRegisterForm from '../../../../modules/account/components/DefaultRegisterForm';
 import { DEFAULT_ROUTERS } from '../../../../modules/account/router.enum';
-import { THANKYOU_ACTION } from '../../../../modules/account/account.enum';
 import { CreateUserDto } from '../../../../modules/account/account.dto';
+import { toast } from 'react-toastify';
 const CreateAccountPage = () => {
   const accountStore = React.useContext(AccountStoreContext);
   const history = useHistory();
@@ -36,11 +36,14 @@ const CreateAccountPage = () => {
     };
 
     accountStore.setCreateUserForm(createUserData);
-    const result = await accountStore.register();
-    if (result) {
+    await accountStore.register();
+    //const result = await accountStore.register();
+    // console.log(result);
+    // if (result) {
       accountStore.resetCreateUserForm();
-      history.push(DEFAULT_ROUTERS.THANKYOU + THANKYOU_ACTION.REGISTER);
-    }
+      history.push(DEFAULT_ROUTERS.LOGIN);
+      toast.success('Register successfully! Check your email to verified and login');
+    //}
   };
 
   return (
