@@ -209,7 +209,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
     );
 };
 
-const CreateProductModal = () => {
+const CreateProductModal = (pros) => {
     const productStore = React.useContext(ProductStoreContext);
     const [visible, setVisible] = useState(false);
 
@@ -217,6 +217,7 @@ const CreateProductModal = () => {
         console.log("Received values of form: ", values);
         // insertUsersApi(values);
         await productStore.createProducts(values);
+        await pros.refetch();
         setVisible(false);
     };
 

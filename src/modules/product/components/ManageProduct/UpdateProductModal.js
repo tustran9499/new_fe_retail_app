@@ -42,7 +42,7 @@ const formItemLayout = {
     },
 };
 
-const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, record, refetch }) => {
     const [form] = Form.useForm();
     const [switchState, setSwitchState] = React.useState(record.Discontinued);
     const onFinish = (values) => {
@@ -65,6 +65,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
                 form
                     .validateFields()
                     .then((values) => {
+                        console.log("validate success")
                         form.resetFields();
                         onCreate(values);
                     })
@@ -102,7 +103,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, record }) => {
                     name="Image"
                     label="Image"
                 >
-                    <UploadAvatarDynamic record={record} />
+                    <UploadAvatarDynamic record={record} refetch={refetch} />
                 </Form.Item>
                 <Form.Item
                     name="ProductName"
@@ -214,11 +215,14 @@ const UpdateProductModal = (pros) => {
     const [visible, setVisible] = useState(false);
 
     const onCreate = async (values) => {
+        setVisible(false);
         console.log("Received values of form: ", values);
         // insertUsersApi(values);
+        console.log(productStore.refetch);
         await productStore.updateProducts(values.Id, values);
-        await productStore.toggleRefetch();
-        setVisible(false);
+        // await productStore.toggleRefetch();
+        await pros.refetch();
+        console.log(productStore.refetch);
     };
 
     return (
@@ -245,6 +249,7 @@ const UpdateProductModal = (pros) => {
                         setVisible(false);
                     }}
                     record={pros.record}
+                    refetch={pros.refetch}
                 />
             </LazyLoad>
         </div>

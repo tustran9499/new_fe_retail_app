@@ -33,6 +33,7 @@ const HomePage = () => {
   productStore.getProducts(pagination.PageNo, pagination.PageSize);
   const getProducts = async () => {
     setLoading(true);
+    console.log("abc");
     // await productStore.getProducts(pagination.PageNo, pagination.PageSize);
     setProducts(productStore.products);
     console.log(products)
@@ -42,21 +43,26 @@ const HomePage = () => {
   };
   const initfunc = async () => {
     setLoading(true);
+    console.log("xyz");
     await productStore.getProducts(pagination.PageNo, pagination.PageSize);
     setProducts(productStore.products);
     setTotal(productStore.totalCount);
     setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
     setLoading(false);
   }
+  const refetch = async () => {
+    await initfunc();
+    await productStore.toggleRefetch();
+  }
   React.useEffect(() => {
     initfunc();
   }, [productStore, productStore.refetch]);
-  React.useEffect(() => {
+  React.useEffect(() => autorun(() => {
     // autorun(() => {
     //   console.log("Energy level:", productStore.products)
     // })
     getProducts();
-  }, [productStore.products]);
+  }), []);
 
 
 
@@ -154,7 +160,7 @@ const HomePage = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <UpdateProductModal record={record} />
+          <UpdateProductModal record={record} refetch={refetch} />
           <DeleteOutlined onClick={() => showPromiseConfirm(record)} />
           {/* <Button
             style={{}}
@@ -192,7 +198,7 @@ const HomePage = () => {
         {/* <Row style={{ marginLeft: '10px' }}>Home Page</Row>
         <Row style={{ marginLeft: '10px' }}>Test products</Row> */}
         <br />
-        <CreateProductModal />
+        <CreateProductModal refetch={refetch} />
         <br />
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Table" key="1">
@@ -218,7 +224,7 @@ const HomePage = () => {
                     <Card
                       style={{ width: 300, marginTop: 16 }}
                       actions={[
-                        <UpdateProductModal record={product} />,
+                        <UpdateProductModal record={product} refetch={refetch} />,
                         <DeleteOutlined onClick={() => showPromiseConfirm(product)} />
                       ]}
                     >
