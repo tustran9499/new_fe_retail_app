@@ -1,13 +1,13 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { ProductStoreContext } from "../../../../modules/product/product.store";
-import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List } from 'antd';
+import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List, Spin } from 'antd';
 import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
 import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
 import CreateProductModal from "../../../../modules/product/components/ManageProduct/CreateProductModal";
-import { autorun } from 'mobx'
+import { makeAutoObservable, autorun, observable } from "mobx"
 
 interface Product {
   Id: number;
@@ -26,28 +26,39 @@ const { confirm } = Modal;
 
 const HomePage = () => {
   const productStore = React.useContext(ProductStoreContext);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [products, setProducts] = React.useState<any[]>([]);
   const [total, setTotal] = React.useState<number>();
   const [pagination, setPagination] = React.useState<any>({ PageNo: 1, PageSize: 10 });
   productStore.getProducts(pagination.PageNo, pagination.PageSize);
   const getProducts = async () => {
+    setLoading(true);
     // await productStore.getProducts(pagination.PageNo, pagination.PageSize);
     setProducts(productStore.products);
+    console.log(products)
     setTotal(productStore.totalCount);
     setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+    setLoading(false);
   };
   const initfunc = async () => {
+    setLoading(true);
     await productStore.getProducts(pagination.PageNo, pagination.PageSize);
     setProducts(productStore.products);
     setTotal(productStore.totalCount);
     setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+    setLoading(false);
   }
   React.useEffect(() => {
     initfunc();
-  }, []);
+  }, [productStore, productStore.refetch]);
   React.useEffect(() => {
+    // autorun(() => {
+    //   console.log("Energy level:", productStore.products)
+    // })
     getProducts();
-  }, [productStore, productStore.products]);
+  }, [productStore.products]);
+
+
 
   // const getProducts = async () => {
   //   await productStore.getProducts(pagination.PageNo, pagination.PageSize);
@@ -67,6 +78,7 @@ const HomePage = () => {
   }
 
   const onChange = async (pageNumber: number, pageSize: any) => {
+    setLoading(true);
     console.log("Page: ", pageNumber);
     console.log("PageSize: ", pageSize);
     console.log("PreviousPageSize: ", pagination.PageSize);
@@ -76,6 +88,7 @@ const HomePage = () => {
     setProducts(productStore.products);
     setTotal(productStore.totalCount);
     setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+    setLoading(false);
   }
 
   const showPromiseConfirm = async (row: any) => {
@@ -83,13 +96,16 @@ const HomePage = () => {
       title: "Do you want to delete product " + row.ProductName,
       icon: <ExclamationCircleOutlined />,
       content: "Warning: The delete product cannot be recover",
-      onOk() {
-        productStore.deleteProduct(row.Id);
+      async onOk() {
+        setLoading(true)
+        await productStore.deleteProduct(row.Id);
+        await productStore.toggleRefetch();
         // return new Promise((resolve, reject) => {
         //   setProducts(productStore.products);
         //   setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
         // }).catch(() => console.log("opps error"));
         setProducts(productStore.products);
+        setLoading(false)
       },
       onCancel() { },
     });
@@ -180,52 +196,56 @@ const HomePage = () => {
         <br />
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Table" key="1">
-            <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
+            <Spin spinning={loading}>
+              <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
+            </Spin>
           </TabPane>
           <TabPane tab="Cards" key="2">
-            <List
-              grid={{
-                gutter: 16,
-                xs: 1,
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 3,
-                xxl: 4,
-              }}
-              dataSource={products}
-              renderItem={product => (
-                <List.Item>
-                  <Card
-                    style={{ width: 300, marginTop: 16 }}
-                    actions={[
-                      <UpdateProductModal record={product} />,
-                      <DeleteOutlined onClick={() => showPromiseConfirm(product)} />
-                    ]}
-                  >
+            <Spin spinning={loading}>
+              <List
+                grid={{
+                  gutter: 16,
+                  xs: 1,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 3,
+                  xxl: 4,
+                }}
+                dataSource={products}
+                renderItem={product => (
+                  <List.Item>
+                    <Card
+                      style={{ width: 300, marginTop: 16 }}
+                      actions={[
+                        <UpdateProductModal record={product} />,
+                        <DeleteOutlined onClick={() => showPromiseConfirm(product)} />
+                      ]}
+                    >
 
-                    <Skeleton loading={false} avatar active>
-                      <Meta
-                        avatar={
-                          <Avatar shape="square" size={64} src={"http://127.0.0.1:4000/api/products/img/thumbnails-" + String(product.PhotoURL ? product.PhotoURL : "default.png")} />
-                        }
-                        title={product.ProductName}
-                        description={!product.Discontinued ? <Tag color="green">In stock</Tag> : <Tag color="red">Out of stock</Tag>}
-                      />
-                      <p>{product.QuantityPerUnit}</p>
-                      {/* <Card.Grid hoverable={false} style={gridStyle}>
+                      <Skeleton loading={false} avatar active>
+                        <Meta
+                          avatar={
+                            <Avatar shape="square" size={64} src={"http://127.0.0.1:4000/api/products/img/thumbnails-" + String(product.PhotoURL ? product.PhotoURL : "default.png")} />
+                          }
+                          title={product.ProductName}
+                          description={!product.Discontinued ? <Tag color="green">In stock</Tag> : <Tag color="red">Out of stock</Tag>}
+                        />
+                        <p>{product.QuantityPerUnit}</p>
+                        {/* <Card.Grid hoverable={false} style={gridStyle}>
                         {product.QuantityPerUnit}
                       </Card.Grid> */}
-                      {/* <Card.Grid style={gridStyle}>Content</Card.Grid>
+                        {/* <Card.Grid style={gridStyle}>Content</Card.Grid>
                       <Card.Grid style={gridStyle}>Content</Card.Grid>
                       <Card.Grid style={gridStyle}>Content</Card.Grid>
                       <Card.Grid style={gridStyle}>Content</Card.Grid> */}
-                    </Skeleton>
+                      </Skeleton>
 
-                  </Card>
-                </List.Item>
-              )}
-            />,
+                    </Card>
+                  </List.Item>
+                )}
+              />,
+              </Spin>
           </TabPane>
         </Tabs>
         <br />

@@ -22,6 +22,7 @@ import {
 import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from "@ant-design/icons";
 import { ProductStoreContext } from "../../product.store";
 import UploadAvatarDynamic from "./UploadAvatarDynamic";
+import LazyLoad from 'react-lazyload'
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -216,6 +217,7 @@ const UpdateProductModal = (pros) => {
         console.log("Received values of form: ", values);
         // insertUsersApi(values);
         await productStore.updateProducts(values.Id, values);
+        await productStore.toggleRefetch();
         setVisible(false);
     };
 
@@ -235,14 +237,16 @@ const UpdateProductModal = (pros) => {
             <EditOutlined onClick={() => {
                 setVisible(true);
             }} />
-            <CollectionCreateForm
-                visible={visible}
-                onCreate={onCreate}
-                onCancel={() => {
-                    setVisible(false);
-                }}
-                record={pros.record}
-            />
+            <LazyLoad>
+                <CollectionCreateForm
+                    visible={visible}
+                    onCreate={onCreate}
+                    onCancel={() => {
+                        setVisible(false);
+                    }}
+                    record={pros.record}
+                />
+            </LazyLoad>
         </div>
     );
 };

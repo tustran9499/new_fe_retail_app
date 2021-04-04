@@ -8,6 +8,12 @@ class ProductStore {
     @observable totalCount: number = 0;
     @observable pageNum: number = 1;
     @observable pageSize: number = 10;
+    @observable refetch: boolean = true;
+
+    @action
+    async toggleRefetch() {
+        this.refetch = !this.refetch;
+    }
 
     @action
     async getProducts(skip: number, take: number) {
