@@ -43,4 +43,6 @@ export enum I18N {
     MESSAGES_UPDATE_SUCCESS = 'Updated successfully',
     MESSAGES_CREATED_SUCCESS = 'Created successfully',
     ADMIN_MENU_LOG_OUT = 'Log out',
+    TOPMENU_WELCOME = 'Welcome',
+    MENU_ACCOUNT_SETUP = 'Account setup'
 }

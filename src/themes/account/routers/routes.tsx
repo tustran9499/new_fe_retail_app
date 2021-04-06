@@ -63,4 +63,15 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/setup',
+    name: 'account.setup',
+    title:'Account setup',
+    exact: true,
+    component: React.lazy(
+      () => import('../../../modules/account/pages/Setup')
+    ),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];
