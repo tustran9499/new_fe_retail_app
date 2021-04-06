@@ -7,16 +7,17 @@ const CartItem = (item) => {
     const handleClick = async (e) => {
         await cartStore.removeFromCart(e);
     }
+    console.log("ahdh", item);
     return (
         <tr>
             <td>
-                {item.ProductName}
+                {item.item.ProductName}
             </td>
             <td>
-                {item.UnitPrice}
+                {item.item.UnitPrice}
             </td>
             <td>
-                <button onClick={() => handleClick(item)} > Remove </button>
+                <button onClick={async () => await handleClick(item.item)} > Remove </button>
             </td>
         </tr>
     );

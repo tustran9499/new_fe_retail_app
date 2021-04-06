@@ -8,7 +8,7 @@ import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
 import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
 import CreateProductModal from "../../../../modules/product/components/ManageProduct/CreateProductModal";
-import { makeAutoObservable, autorun, observable } from "mobx"
+import { makeAutoObservable, autorun, observable, toJS } from "mobx"
 import Cart from "./Cart";
 
 interface Product {
@@ -158,7 +158,7 @@ const HomePage = () => {
       <div style={{ background: "white" }}>
         {console.log(products)}
         <Row>
-          <Col span={10}><Cart /></Col>
+          <Col span={10}><Cart productsInCart={cartStore.productsInCart} /></Col>
           <Col span={14}>
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Table" key="1">

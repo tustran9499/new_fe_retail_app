@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, action, computed, reaction } from 'mobx';
+import { observable, action, computed, reaction, makeObservable, autorun } from 'mobx';
 // import { Product } from '../../../modules/product/product.dto';
 
 interface Product {
@@ -28,20 +28,28 @@ class CartStore {
         return total;
     }
     @action.bound
-    addToCart(product: Product) {
+    addToCart = async (product: Product) => {
         console.log("signal add to cart");
-        this.productsInCart.push(product);
+        await this.productsInCart.push(product);
+        console.log(this.productsInCart)
     }
     @action.bound
-    removeFromCart(product: Product) {
+    removeFromCart = async (product: Product) => {
         const index = this.productsInCart.indexOf(product);
         if (index >= 0) {
             this.productsInCart.splice(index, 1);
         }
     }
     @action.bound
-    fetchCart() {
+    fetchCart = async () => {
+        console.log("fetch");
+        console.log(this.productsInCart);
         return this.productsInCart;
+    }
+
+    constructor() {
+        makeObservable(this);
+        autorun(() => console.log(this.productsInCart));
     }
 }
 export default new CartStore();
