@@ -5,19 +5,40 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AccountLayout from "./themes/account/layout";
+import "./themes/style.scss";
+import { cssTransition, ToastContainer } from "react-toastify";
+
+const Zoom = cssTransition({
+  enter: 'zoomIn',
+  exit: 'zoomOut',
+  // appendPosition: false,
+  // collapse: true,
+  // collapseDuration: 300,
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Switch>
-        <Route
-          path="/account"
-          render={(props: any) => <AccountLayout {...props} exact />}
-        />
-        <Route path="/" render={(props: any) => <App {...props} exact />} />
-      </Switch>
+      <Suspense fallback={<div>Loading... </div>}>
+        <Switch>
+          <Route
+            path="/account"
+            render={(props: any) => <AccountLayout {...props} exact />}
+          />
+          <Route path="/" render={(props: any) => <AccountLayout {...props} exact />} />
+        </Switch>
+      </Suspense>
+      <ToastContainer
+            autoClose={2000}
+            position={'top-center'}
+            hideProgressBar={false}
+            transition={Zoom}
+            pauseOnHover={true}
+            closeOnClick={true}
+            rtl={false}
+          />
     </BrowserRouter>
-  </React.StrictMode >,
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

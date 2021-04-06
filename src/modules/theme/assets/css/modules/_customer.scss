@@ -1,0 +1,159 @@
+$login-background: #fff;
+$op-form-label-color: $c-white-350;
+$op-form-border-color: $c-white-350;
+$op-form-icon-color: $color-yellow-050;
+$op-form-focus-border-color: $color-yellow-050;
+$form-field-error-color: #ff5b6a;
+
+$form-box-shadow: $box-shadow;
+
+//
+// Onepage Component
+// Form on Onepage
+//
+
+.one-page {
+  .form-title {
+    font-weight: $op-form-title-font-weight;
+    font-size: $op-form-title-font-size;
+    // line-height: $op-form-title-line-height;
+    margin: 0 0 30px;
+  }
+
+  .form-group {
+    margin-bottom: 30px;
+    padding: 0;
+    position: relative;
+
+    .ico {
+      position: absolute;
+      right: 0;
+      top: 30px;
+      color: $op-form-icon-color;
+      font-size: 25px;
+    }
+  }
+
+  .form-row {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+
+    &:before {
+      display: none;
+    }
+  }
+
+  .form-control {
+    border: 0;
+    border-bottom: 1px solid $op-form-border-color;
+    background: none;
+    border-radius: 0;
+    padding: 0 30px 0 0;
+    width: 100%;
+    background-image: none !important;
+
+    &:focus,
+    &:hover {
+      box-shadow: none;
+      border: 0;
+      border-bottom: 1px solid $op-form-focus-border-color;
+      background: none;
+      border-radius: 0;
+    }
+  }
+
+  .was-validated .form-control:invalid,
+  .form-control.is-invalid {
+    border-bottom: 1px solid $form-field-error-color;
+  }
+
+  .form {
+    padding: $op-form-padding;
+
+    @include media-min($md) {
+      padding: 0;
+      width: 65%;
+      float: right;
+      max-width: 460px;
+      background: $login-background;
+      border-radius: $border-radius;
+      padding: 40px 40px 20px;
+      margin: 0 0 70px;
+      box-shadow: $form-box-shadow;
+    }
+
+    @include media-min($lg) {
+      width: 50%;
+    }
+
+    @include media-min($xl) {
+      margin-right: 120px;
+    }
+
+    label {
+      color: $op-form-label-color;
+      margin: 0;
+      display: block;
+      line-height: 1.5;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: none !important;
+      -webkit-text-fill-color: none !important;
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+
+    .was-validated .form-control:invalid,
+    .form-control.is-invalid {
+      & + .invalid-feedback {
+        @include media-min($xlg) {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    padding: 0;
+
+    .btn-group > .btn-group:not(:last-child) > .btn,
+    .btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+    .btn-group > .btn-group:not(:first-child) > .btn,
+    .btn-group > .btn:not(:first-child) {
+      border-radius: $border-radius-sm;
+    }
+  }
+
+  .form-login {
+    .btn-link {
+      padding: 15px 0 0;
+    }
+    .form-group {
+      &.form-group-password {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .form-forgot {
+    p {
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 0 0 35px;
+    }
+
+    .form-title {
+      margin: 0 0 15px;
+    }
+  }
+}
+
+div#__lpform_email,
+div#__lpform_password,
+div#__lpform_confirmPassword {
+  display: none;
+}
