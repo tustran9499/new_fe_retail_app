@@ -249,11 +249,6 @@ const HomePage = () => {
                   <Form.Item label="Return">
                     <Input disabled={cartStore.isCheckout} value={returnCash} />
                   </Form.Item>
-                  <Form.Item label="Select">
-                    <Select>
-                      <Select.Option value="demo">Demo</Select.Option>
-                    </Select>
-                  </Form.Item>
                   <Form.Item>
                     <Button type="primary" htmlType="submit">
                       Confirm
