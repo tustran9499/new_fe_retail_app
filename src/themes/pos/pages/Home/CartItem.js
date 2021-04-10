@@ -1,8 +1,10 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { CartStoreContext } from "../../stores/cart.store";
+import { Input, Tooltip, Button } from 'antd';
+import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 
-const CartItem = (item) => {
+const CartItem = ({ item, isCheckout }) => {
     const cartStore = React.useContext(CartStoreContext);
     const handleRemoveClick = async (e) => {
         await cartStore.removeFromCart(e);
@@ -13,30 +15,32 @@ const CartItem = (item) => {
     const handleDecreaseClick = async (e) => {
         await cartStore.decreaseToCart(e);
     }
-    console.log("ahdh", item);
+    const onChange = async (item, e) => {
+        cartStore.updateQuantity(item, e.target.value);
+        console.log('Change:', e.target.value);
+    };
+    const quantity = item.Quantity
     return (
         <tr>
             <td>
-                {item.item.ProductName}
+                {item.ProductName}
             </td>
             <td>
-                {item.item.Quantity}
+                <Input disabled={isCheckout} style={{ width: 50 }} size='small' value={quantity} onChange={async (e) => await onChange(item, e)} />
             </td>
             <td>
-                {item.item.UnitPrice}
+                {item.UnitPrice}
             </td>
-            <td>
-                {item.item.Total}
+            <td class="text-right pr-5">
+                {item.Total}
             </td>
-            <td>
-                <button onClick={async () => await handleIncreaseClick(item.item)} > Increase </button>
-            </td>
-            <td>
-                <button onClick={async () => await handleDecreaseClick(item.item)} > Decrease </button>
-            </td>
-            <td>
-                <button onClick={async () => await handleRemoveClick(item.item)} > Remove </button>
-            </td>
+            {(!isCheckout) && <td class="p-0">
+                <Button onClick={async () => await handleIncreaseClick(item)} type="link" icon={<PlusOutlined />} />
+                <Button onClick={async () => await handleDecreaseClick(item)} type="link" icon={<MinusOutlined />} />
+            </td>}
+            {(!isCheckout) && <td class="p-0">
+                <Button onClick={async () => await handleRemoveClick(item)} type="link" icon={<DeleteOutlined />} />
+            </td>}
         </tr>
     );
 }

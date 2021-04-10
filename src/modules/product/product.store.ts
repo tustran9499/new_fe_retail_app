@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable, autorun } from 'mobx';
 import productService from './product.service';
 import { Product } from './product.dto';
 
@@ -69,6 +69,7 @@ class ProductStore {
         this.pageNum = data.meta.currentPage;
         this.pageSize = data.meta.itemCount;
     }
+
 }
 
 export default new ProductStore();

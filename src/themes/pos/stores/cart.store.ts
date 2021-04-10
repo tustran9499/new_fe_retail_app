@@ -27,7 +27,7 @@ interface Product {
 
 class CartStore {
     @observable productsInCart: CartProduct[] = [];
-
+    @observable isCheckout: boolean = false;
     @computed get totalNum() {
         let total = 0;
         for (let item of this.productsInCart) {
@@ -59,6 +59,17 @@ class CartStore {
         }
     }
     @action.bound
+    updateQuantity = async (product: Product, quantity: number) => {
+        await this.productsInCart.map(item => {
+            if (item.Id === product.Id) {
+                item.Quantity = Number(quantity);
+                item.Total = item.UnitPrice * item.Quantity;
+                const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
+                this.productsInCart.splice(index, 1, item);
+            }
+        });
+    }
+    @action.bound
     decreaseToCart = async (product: Product) => {
         await this.productsInCart.map(item => {
             if (item.Id === product.Id) {
@@ -80,6 +91,18 @@ class CartStore {
         if (index >= 0) {
             this.productsInCart.splice(index, 1);
         }
+    }
+    @action.bound
+    emptyCart = async () => {
+        this.productsInCart.splice(0, this.productsInCart.length);
+    }
+    @action.bound
+    checkoutCart = async () => {
+        this.isCheckout = true;
+    }
+    @action.bound
+    returnToCart = async () => {
+        this.isCheckout = false;
     }
     @action.bound
     fetchCart = async () => {
