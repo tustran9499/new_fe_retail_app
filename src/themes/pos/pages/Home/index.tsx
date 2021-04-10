@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { ProductStoreContext } from "../../../../modules/product/product.store";
 import { CartStoreContext } from "../../stores/cart.store";
-import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List, Spin, Divider } from 'antd';
+import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List, Spin, Divider, Form, Input, Select, } from 'antd';
 import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
@@ -34,6 +34,7 @@ const HomePage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [products, setProducts] = React.useState<any[]>([]);
   const [total, setTotal] = React.useState<number>();
+  const [returnCash, setReturnCash] = React.useState<number>(0);
   const [pagination, setPagination] = React.useState<any>({ PageNo: 1, PageSize: 10 });
   productStore.getProducts(pagination.PageNo, pagination.PageSize);
   const getProducts = async () => {
@@ -62,6 +63,8 @@ const HomePage = () => {
   React.useEffect(() => autorun(() => {
     getProducts();
   }), []);
+  React.useEffect(() => {
+  }, [returnCash]);
 
   const showTotal = (total: number) => {
     return `Total ${total} items`;
@@ -152,7 +155,10 @@ const HomePage = () => {
     width: '50%',
     border: "none",
   };
-
+  const onChangePay = async (e) => {
+    setReturnCash(Number(e.target.value) - cartStore.totalAmount);
+    console.log('Change:', e.target.value);
+  };
 
   return (
     <>
@@ -229,6 +235,31 @@ const HomePage = () => {
             </Breadcrumb>
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Cash" key="1">
+                <Form
+                  labelCol={{ span: 4 }}
+                  wrapperCol={{ span: 14 }}
+                  layout="horizontal"
+                >
+                  <Form.Item label="Total">
+                    <Input disabled={cartStore.isCheckout} value={cartStore.totalAmount} />
+                  </Form.Item>
+                  <Form.Item label="Pay">
+                    <Input onChange={async (e) => await onChangePay(e)} />
+                  </Form.Item>
+                  <Form.Item label="Return">
+                    <Input disabled={cartStore.isCheckout} value={returnCash} />
+                  </Form.Item>
+                  <Form.Item label="Select">
+                    <Select>
+                      <Select.Option value="demo">Demo</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Confirm
+        </Button>
+                  </Form.Item>
+                </Form>
               </TabPane>
               <TabPane tab="Credit card" key="2"></TabPane>
               <TabPane tab="E-Wallet" key="3"></TabPane>
