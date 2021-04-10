@@ -26,7 +26,9 @@ const Cart = observer(({ productsInCart }) => {
             <table>
                 <tr>
                     <th>Product Name</th>
+                    <th>Quantity</th>
                     <th>Price</th>
+                    <th>Total</th>
                     <th>Action</th>
                 </tr>
                 {

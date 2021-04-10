@@ -2,48 +2,87 @@ import React from 'react';
 import { observable, action, computed, reaction, makeObservable, autorun } from 'mobx';
 // import { Product } from '../../../modules/product/product.dto';
 
+interface CartProduct {
+    Id: number;
+    ProductName: string;
+    CategoryId: number;
+    QuantityPerUnit: string;
+    UnitPrice: number;
+    UnitsInStock: number;
+    ReorderLevel: number;
+    Discontinued: boolean;
+    Quantity: number;
+    Total: number;
+}
 interface Product {
     Id: number;
     ProductName: string;
     CategoryId: number;
     QuantityPerUnit: string;
     UnitPrice: number;
-    // UnitsInStock: number;
-    // ReorderLevel: number;
-    // Discontinued: boolean;
-    // PhotoURL: string;
+    UnitsInStock: number;
+    ReorderLevel: number;
+    Discontinued: boolean;
 }
 
 class CartStore {
-    @observable productsInCart: Product[] = [];
+    @observable productsInCart: CartProduct[] = [];
 
-    @computed get count() {
-        return this.productsInCart.length;
+    @computed get totalNum() {
+        let total = 0;
+        for (let item of this.productsInCart) {
+            total = total + (item.Quantity)
+        }
+        return total;
     }
     @computed get totalAmount() {
         let total = 0;
         for (let item of this.productsInCart) {
-            total = total + (item.UnitPrice)
+            total = total + (item.Total)
         }
         return total;
     }
     @action.bound
     addToCart = async (product: Product) => {
-        console.log("signal add to cart");
-        await this.productsInCart.push(product);
-        console.log(this.productsInCart)
+        let found = false;
+        await this.productsInCart.map(item => {
+            if (item.Id === product.Id) {
+                item.Quantity += 1;
+                item.Total = item.UnitPrice * item.Quantity;
+                found = true;
+                const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
+                this.productsInCart.splice(index, 1, item);
+            }
+        });
+        if (!found) {
+            await this.productsInCart.push({ ...product, Quantity: 1, Total: product.UnitPrice });
+        }
+    }
+    @action.bound
+    decreaseToCart = async (product: Product) => {
+        await this.productsInCart.map(item => {
+            if (item.Id === product.Id) {
+                if (item.Quantity > 1) {
+                    item.Quantity -= 1;
+                    item.Total = item.UnitPrice * item.Quantity;
+                    const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
+                    this.productsInCart.splice(index, 1, item);
+                }
+                else {
+                    this.removeFromCart(product);
+                }
+            }
+        });
     }
     @action.bound
     removeFromCart = async (product: Product) => {
-        const index = this.productsInCart.indexOf(product);
+        const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
         if (index >= 0) {
             this.productsInCart.splice(index, 1);
         }
     }
     @action.bound
     fetchCart = async () => {
-        console.log("fetch");
-        console.log(this.productsInCart);
         return this.productsInCart;
     }
 
