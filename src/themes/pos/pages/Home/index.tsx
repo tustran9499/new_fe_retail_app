@@ -35,6 +35,7 @@ const HomePage = () => {
   const [products, setProducts] = React.useState<any[]>([]);
   const [total, setTotal] = React.useState<number>();
   const [returnCash, setReturnCash] = React.useState<number>(0);
+  const [searchKey, setSearchKey] = React.useState<string>('');
   const [pagination, setPagination] = React.useState<any>({ PageNo: 1, PageSize: 10 });
   productStore.getProducts(pagination.PageNo, pagination.PageSize);
   const getProducts = async () => {
@@ -76,6 +77,16 @@ const HomePage = () => {
     await productStore.changePage(pageNumber, pageSize);
     setProducts(productStore.products);
     setTotal(productStore.totalCount);
+    setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+    setLoading(false);
+  }
+
+  const search = async (key: string) => {
+    setLoading(true);
+    await productStore.changeSearchKey(key);
+    setProducts(productStore.products);
+    setTotal(productStore.totalCount);
+    setSearchKey(productStore.searchKey);
     setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
     setLoading(false);
   }
@@ -184,8 +195,8 @@ const HomePage = () => {
               <Col span={5}></Col>
               <Col span={8}>
                 <Search
-                  placeholder="input search text"
-                  onSearch={(value: any) => { console.log(value) }}
+                  placeholder="input id or name"
+                  onSearch={(value: any) => search(value)}
                   enterButton
                   autoFocus={true}
                 />

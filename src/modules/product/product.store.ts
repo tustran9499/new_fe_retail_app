@@ -61,6 +61,19 @@ class ProductStore {
     }
 
     @action
+    async changeSearchKey(key: string) {
+        let data: any = [];
+        this.pageNum = 1;
+        this.pageSize = 10;
+        this.searchKey = key.trim();
+        data = await productService.searchProductsPagination(1, 10, key);
+        this.products = data.items;
+        this.totalCount = data.meta.totalItems;
+        // this.pageNum = data.meta.currentPage;
+        // this.pageSize = data.meta.itemCount;
+    }
+
+    @action
     async deleteProduct(Id: number) {
         let data: any = [];
         await productService.deleteProducts(Id);
