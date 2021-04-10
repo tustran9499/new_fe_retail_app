@@ -48,6 +48,17 @@ class ProductService {
     return result.data;
   }
 
+  public async searchProductsPagination(skip: number, take: number, key: string) {
+    const result = await http.get(`${this.productPrefix}/searchProducts`, {
+      params: {
+        page: skip,
+        limit: take,
+        key: key,
+      },
+    });
+    return result.data;
+  }
+
   public async deleteProducts(id: number) {
     const result = await http.delete(`${this.productPrefix}/${id}`, {
     });

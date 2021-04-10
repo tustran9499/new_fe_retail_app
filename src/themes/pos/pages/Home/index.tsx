@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { ProductStoreContext } from "../../../../modules/product/product.store";
 import { CartStoreContext } from "../../stores/cart.store";
-import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List, Spin, Divider, Form, Input, Select, } from 'antd';
+import { Row, Modal, Col, Button, Pagination, Table, Tag, Radio, Space, Tabs, Card, Skeleton, Avatar, List, Spin, Divider, Form, Input, Select } from 'antd';
 import { ExclamationCircleOutlined, AudioOutlined, EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
@@ -102,6 +102,11 @@ const HomePage = () => {
 
   const columns: ColumnsType<Product> = [
     {
+      title: "Id",
+      dataIndex: "Id",
+      sorter: false,
+    },
+    {
       title: "ProductName",
       dataIndex: "ProductName",
       sorter: false,
@@ -160,6 +165,8 @@ const HomePage = () => {
     console.log('Change:', e.target.value);
   };
 
+  const { Search } = Input;
+
   return (
     <>
       <div style={{ background: "white" }}>
@@ -167,6 +174,23 @@ const HomePage = () => {
         <Row>
           <Col span={10} ><Cart productsInCart={cartStore.productsInCart} totalNum={cartStore.totalNum} totalAmount={cartStore.totalAmount} isCheckout={cartStore.isCheckout} /></Col>
           {(!cartStore.isCheckout) && <Col span={12} offset={1}>
+            <Breadcrumb class="mt-2 mb-0 pb-0">
+              <h5>Products</h5>
+            </Breadcrumb>
+            <Row>
+              <Col span={11}>
+                <Input placeholder="Enter product Id to add to cart immediately" />
+              </Col>
+              <Col span={5}></Col>
+              <Col span={8}>
+                <Search
+                  placeholder="input search text"
+                  onSearch={(value: any) => { console.log(value) }}
+                  enterButton
+                  autoFocus={true}
+                />
+              </Col>
+            </Row>
             <Tabs defaultActiveKey="1" onChange={callback}>
               <TabPane tab="Table" key="1">
                 <Spin spinning={loading}>
@@ -249,7 +273,7 @@ const HomePage = () => {
                   <Form.Item label="Return">
                     <Input disabled={cartStore.isCheckout} value={returnCash} />
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item style={{ textAlign: 'right' }}>
                     <Button type="primary" htmlType="submit">
                       Confirm
         </Button>

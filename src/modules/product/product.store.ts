@@ -9,6 +9,7 @@ class ProductStore {
     @observable pageNum: number = 1;
     @observable pageSize: number = 10;
     @observable refetch: boolean = true;
+    @observable searchKey: string = '';
 
     @action
     async toggleRefetch() {
@@ -18,7 +19,7 @@ class ProductStore {
     @action
     async getProducts(skip: number, take: number) {
         let data: any = [];
-        data = await productService.getProductsPagination(skip, take);
+        data = await productService.searchProductsPagination(skip, take, this.searchKey);
         this.products = data.items;
         this.totalCount = data.meta.totalItems;
         // this.pageNum = data.meta.currentPage;
@@ -29,7 +30,7 @@ class ProductStore {
     async createProducts(product: Product) {
         await productService.createProduct(product);
         let data: any = [];
-        data = await productService.getProductsPagination(this.pageNum, this.pageSize);
+        data = await productService.searchProductsPagination(this.pageNum, this.pageSize, this.searchKey);
         this.products = data.items;
         this.totalCount = data.meta.totalItems;
         // this.pageNum = data.meta.currentPage;
@@ -40,7 +41,7 @@ class ProductStore {
     async updateProducts(id: number, product: Product) {
         await productService.updateProduct(id, product);
         let data: any = [];
-        data = await productService.getProductsPagination(this.pageNum, this.pageSize);
+        data = await productService.searchProductsPagination(this.pageNum, this.pageSize, this.searchKey);
         this.products = data.items;
         this.totalCount = data.meta.totalItems;
         // this.pageNum = data.meta.currentPage;
@@ -52,7 +53,7 @@ class ProductStore {
         let data: any = [];
         this.pageNum = page;
         this.pageSize = pageSize
-        data = await productService.getProductsPagination(page, this.pageSize);
+        data = await productService.searchProductsPagination(page, this.pageSize, this.searchKey);
         this.products = data.items;
         this.totalCount = data.meta.totalItems;
         // this.pageNum = data.meta.currentPage;
@@ -63,7 +64,7 @@ class ProductStore {
     async deleteProduct(Id: number) {
         let data: any = [];
         await productService.deleteProducts(Id);
-        data = await productService.getProductsPagination(this.pageNum, this.pageSize);
+        data = await productService.searchProductsPagination(this.pageNum, this.pageSize, this.searchKey);
         this.products = data.items;
         this.totalCount = data.meta.totalItems;
         this.pageNum = data.meta.currentPage;

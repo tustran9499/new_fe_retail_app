@@ -22,6 +22,9 @@ const CartItem = ({ item, isCheckout }) => {
     const quantity = item.Quantity
     return (
         <tr>
+            <td class="pr-0">
+                {item.Id}
+            </td>
             <td>
                 {item.ProductName}
             </td>
@@ -37,8 +40,6 @@ const CartItem = ({ item, isCheckout }) => {
             {(!isCheckout) && <td class="p-0">
                 <Button onClick={async () => await handleIncreaseClick(item)} type="link" icon={<PlusOutlined />} />
                 <Button onClick={async () => await handleDecreaseClick(item)} type="link" icon={<MinusOutlined />} />
-            </td>}
-            {(!isCheckout) && <td class="p-0">
                 <Button onClick={async () => await handleRemoveClick(item)} type="link" icon={<DeleteOutlined />} />
             </td>}
         </tr>

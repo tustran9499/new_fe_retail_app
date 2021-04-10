@@ -27,12 +27,12 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
             {(!isCheckout) && <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
+                        <th class="pr-0">#</th>
                         <th>Name</th>
                         <th>Quantity</th>
                         <th>Price</th>
-                        <th>Total</th>
+                        <th class="text-right pr-5">Total</th>
                         <th>Action</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +43,8 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                     }
                     <tr>
                         <td>
+                        </td>
+                        <td class="pr-0">
                             Num
                         </td>
                         <td>
@@ -55,13 +57,13 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                         <td class="p-0">
                             <Button onClick={async () => await handleEmptyClick()} type="link" icon={<DeleteOutlined />} >Empty cart</Button>
                         </td>
-                        <td>
-                        </td>
+
 
                     </tr>
                     <tr>
-
                         <td>
+                        </td>
+                        <td class="pr-0">
                             Total
                         </td>
                         <td>
@@ -74,14 +76,14 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                         <td class="p-0">
                             <Button onClick={async () => await handleCheckoutClick()} type="link" icon={<CheckOutlined />} >Confirm order</Button>
                         </td>
-                        <td>
-                        </td>
+
                     </tr>
                 </tbody>
             </Table>}
             {(isCheckout) && <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Quantity</th>
                         <th>Price</th>
@@ -96,6 +98,8 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                     }
                     <tr>
                         <td>
+                        </td>
+                        <td>
                             Num
                         </td>
                         <td>
@@ -109,6 +113,8 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                     </tr>
                     <tr>
                         <td>
+                        </td>
+                        <td>
                             Total
                         </td>
                         <td>
@@ -116,7 +122,7 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                         </td>
                         <td>
                         </td>
-                        <td class="text-right">
+                        <td class="p-0">
                             <Button onClick={async () => await handleModifyClick()} type="link" icon={< ArrowLeftOutlined />} >Modify order</Button>
                         </td>
                     </tr>
