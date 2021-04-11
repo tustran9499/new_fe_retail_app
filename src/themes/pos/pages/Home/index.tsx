@@ -269,6 +269,26 @@ const HomePage = () => {
           </Col>}
           {(cartStore.isCheckout) && <Col span={12} offset={1}>
             <Breadcrumb class="mb-0 pb-0">
+              <h5>Customer</h5>
+            </Breadcrumb>
+
+            <Form
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 14 }}
+              layout="horizontal"
+            >
+              <Form.Item label="Customer">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Phone">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Address">
+                <Input />
+              </Form.Item>
+            </Form>
+
+            <Breadcrumb class="mb-0 pb-0">
               <h5>Payment</h5>
             </Breadcrumb>
             <Tabs defaultActiveKey="1" onChange={callback}>

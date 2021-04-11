@@ -1,9 +1,10 @@
 import http from "../../common/sevices";
 
 class AdminService {
-  accountPrefix: string = "https://warehouse-retail.herokuapp.com/api/accounts";
+  accountPrefix: string = "http://localhost:4000/api/products";
 
   public async getAccounts(skip: number, take: number) {
+    console.log("debug");
     const result = await http.get(`${this.accountPrefix}/`, {
       params: {
         skip: skip,
@@ -26,7 +27,7 @@ class AdminService {
 
   public async updateAccount(id: number, model: any) {
     return await http.put(`${this.accountPrefix}/${id}`, model);
-  }  
+  }
 
   public async deleteAccount(id: number) {
     return await http.delete(`${this.accountPrefix}/${id}`);

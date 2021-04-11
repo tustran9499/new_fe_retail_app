@@ -27,8 +27,17 @@ interface Product {
     Discontinued: boolean;
 }
 
+interface Session {
+    SessionId: string;
+    Start: string;
+    End: string;
+    Type: string;
+    SalecleckId: number;
+}
+
 class CartStore {
     @observable productsInCart: CartProduct[] = [];
+    @observable session: string = '';
     @observable isCheckout: boolean = false;
     @computed get totalNum() {
         let total = 0;
