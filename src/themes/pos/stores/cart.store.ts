@@ -1,5 +1,7 @@
 import React from 'react';
 import { observable, action, computed, reaction, makeObservable, autorun } from 'mobx';
+import productService from '../../../modules/product/product.service';
+import { message } from 'antd';
 // import { Product } from '../../../modules/product/product.dto';
 
 interface CartProduct {
@@ -33,14 +35,14 @@ class CartStore {
         for (let item of this.productsInCart) {
             total = total + (item.Quantity)
         }
-        return total;
+        return Number(total.toFixed(2));;
     }
     @computed get totalAmount() {
         let total = 0;
         for (let item of this.productsInCart) {
             total = total + (item.Total)
         }
-        return total;
+        return total.toFixed(2);
     }
     @action.bound
     addToCart = async (product: Product) => {
@@ -48,7 +50,7 @@ class CartStore {
         await this.productsInCart.map(item => {
             if (item.Id === product.Id) {
                 item.Quantity += 1;
-                item.Total = item.UnitPrice * item.Quantity;
+                item.Total = Number((item.UnitPrice * item.Quantity).toFixed(2));
                 found = true;
                 const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
                 this.productsInCart.splice(index, 1, item);
@@ -57,6 +59,21 @@ class CartStore {
         if (!found) {
             await this.productsInCart.push({ ...product, Quantity: 1, Total: product.UnitPrice });
         }
+    }
+    @action.bound
+    addToCartById = async (id: number) => {
+        const promise = productService.getOne(id);
+        promise.then((res: any) => {
+            if (res.data != "") {
+                this.addToCart(res.data);
+            }
+            else {
+                message.error("Invalid ID!");
+            }
+        });
+        promise.catch((err: any) => {
+            message.error(err.response);
+        });
     }
     @action.bound
     updateQuantity = async (product: Product, quantity: number) => {
@@ -75,7 +92,7 @@ class CartStore {
             if (item.Id === product.Id) {
                 if (item.Quantity > 1) {
                     item.Quantity -= 1;
-                    item.Total = item.UnitPrice * item.Quantity;
+                    item.Total = Number((item.UnitPrice * item.Quantity).toFixed(2));
                     const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
                     this.productsInCart.splice(index, 1, item);
                 }

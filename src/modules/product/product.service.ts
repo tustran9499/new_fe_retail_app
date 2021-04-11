@@ -1,5 +1,6 @@
 import http from "../../common/sevices";
 import { Product } from "./product.dto";
+import { message } from 'antd';
 
 class ProductService {
   productPrefix: string = "http://localhost:4000/api" + "/products";
@@ -63,6 +64,18 @@ class ProductService {
     const result = await http.delete(`${this.productPrefix}/${id}`, {
     });
     return result.data;
+  }
+
+  public async getOne(id: number) {
+    return new Promise((resolve, reject) => {
+      http.get(`${this.productPrefix}/${id}`, {
+      }).then((res) => {
+        resolve(res);
+      })
+        .catch((error) => {
+          reject(error.response);
+        });;
+    });
   }
 }
 

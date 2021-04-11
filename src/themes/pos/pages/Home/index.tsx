@@ -175,6 +175,9 @@ const HomePage = () => {
     setReturnCash(Number(e.target.value) - cartStore.totalAmount);
     console.log('Change:', e.target.value);
   };
+  const onPressEnterAdd = async (e) => {
+    cartStore.addToCartById(Number(e.target.value));
+  };
 
   const { Search } = Input;
 
@@ -190,7 +193,7 @@ const HomePage = () => {
             </Breadcrumb>
             <Row>
               <Col span={11}>
-                <Input placeholder="Enter product Id to add to cart immediately" />
+                <Input placeholder="Enter product Id to add to cart immediately" onPressEnter={async (e) => await onPressEnterAdd(e)} />
               </Col>
               <Col span={5}></Col>
               <Col span={8}>

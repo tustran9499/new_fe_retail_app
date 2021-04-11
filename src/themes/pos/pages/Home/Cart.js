@@ -4,8 +4,8 @@ import CartItem from './CartItem';
 import { CartStoreContext } from "../../stores/cart.store";
 import { makeAutoObservable, autorun, observable } from "mobx"
 import { Table, Breadcrumb } from 'react-bootstrap';
-import { Input, Tooltip, Button } from 'antd';
-import { PlusOutlined, MinusOutlined, DeleteOutlined, CheckOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { Input, Tooltip, Button, message } from 'antd';
+import { PlusOutlined, MinusOutlined, DeleteOutlined, CheckOutlined, ArrowLeftOutlined, PrinterOutlined } from "@ant-design/icons";
 
 
 const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) => {
@@ -14,10 +14,18 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
         await cartStore.emptyCart();
     }
     const handleCheckoutClick = async () => {
-        await cartStore.checkoutCart();
+        if (totalNum == 0) {
+            message.error('Cart is empty');
+        }
+        else {
+            await cartStore.checkoutCart();
+        }
     }
     const handleModifyClick = async () => {
         await cartStore.returnToCart();
+    }
+    const handleConfirmPrintClick = async () => {
+        window.print();
     }
     return (
         <div class="p-4 mr-2">
@@ -107,7 +115,8 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                         </td>
                         <td>
                         </td>
-                        <td>
+                        <td class="p-0">
+                            <Button onClick={async () => await handleConfirmPrintClick()} type="link" icon={<PrinterOutlined />} >Confirm and print receipt</Button>
                         </td>
 
                     </tr>
