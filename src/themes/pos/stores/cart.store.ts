@@ -1,6 +1,7 @@
 import React from 'react';
 import { observable, action, computed, reaction, makeObservable, autorun } from 'mobx';
 import productService from '../../../modules/product/product.service';
+import cartService from '../services/cart.service'
 import { message } from 'antd';
 // import { Product } from '../../../modules/product/product.dto';
 
@@ -38,6 +39,8 @@ interface Session {
 class CartStore {
     @observable productsInCart: CartProduct[] = [];
     @observable session: string = '';
+    @observable sessionStart: string = '';
+    @observable salescleckFullName: string = '';
     @observable isCheckout: boolean = false;
     @computed get totalNum() {
         let total = 0;
@@ -129,6 +132,33 @@ class CartStore {
     @action.bound
     returnToCart = async () => {
         this.isCheckout = false;
+    }
+    @action.bound
+    getCashierInfo = async () => {
+        const result = await cartService.getCashierInfo();
+        console.log(result);
+        if (result.Salesclerk) {
+            this.salescleckFullName = result.Salesclerk.FName + " " + result.Salesclerk.LName;
+        }
+        if (result.Session) {
+            this.session = result.Session.SessionId;
+            this.sessionStart = result.Session.Start;
+        }
+    }
+    @action.bound
+    endSession = async () => {
+        const result = await cartService.endSession(this.session);
+        if (result) {
+            this.session = "";
+            this.sessionStart = "";
+        }
+    }
+    @action.bound
+    startSession = async () => {
+        const result = await cartService.startNewSession();
+        if (result) {
+            this.getCashierInfo();
+        }
     }
     @action.bound
     fetchCart = async () => {

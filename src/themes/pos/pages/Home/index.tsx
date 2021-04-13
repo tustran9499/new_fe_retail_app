@@ -10,7 +10,10 @@ import UpdateProductModal from "../../../../modules/product/components/ManagePro
 import CreateProductModal from "../../../../modules/product/components/ManageProduct/CreateProductModal";
 import { makeAutoObservable, autorun, observable, toJS } from "mobx"
 import Cart from "./Cart";
-import { Jumbotron, Container, Breadcrumb } from 'react-bootstrap';
+import { Jumbotron, Container, Breadcrumb, Navbar, Nav } from 'react-bootstrap';
+import '../../../../modules/product/components/ManageProduct/style.css';
+import Clock from 'react-live-clock';
+import { CommonStoreContext } from '../../../../common/common.store';
 
 interface Product {
   Id: number;
@@ -29,6 +32,7 @@ const { confirm } = Modal;
 
 
 const HomePage = () => {
+  const commonStore = React.useContext(CommonStoreContext);
   const productStore = React.useContext(ProductStoreContext);
   const cartStore = React.useContext(CartStoreContext);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -66,6 +70,9 @@ const HomePage = () => {
   }), []);
   React.useEffect(() => {
   }, [returnCash]);
+  React.useEffect(() => {
+    cartStore.getCashierInfo();
+  }, []);
 
   const showTotal = (total: number) => {
     return `Total ${total} items`;
@@ -179,12 +186,49 @@ const HomePage = () => {
     cartStore.addToCartById(Number(e.target.value));
   };
 
+  const handleEndSessionClick = async () => {
+    await cartStore.endSession();
+  }
+
+  const handleStartSessionClick = async () => {
+    await cartStore.startSession();
+  }
+
   const { Search } = Input;
 
   return (
     <>
-      <div style={{ background: "white" }}>
-        {console.log(products)}
+      <div style={{
+        background: "white", width: "97%",
+        margin: "auto",
+        'border-radius': "17px",
+        'margin-top': "15px",
+        'padding': "10px",
+      }}>
+        <Navbar bg="light" variant="light">
+          <Navbar.Brand href="#home">Hi {cartStore.salescleckFullName}!</Navbar.Brand>
+          {cartStore.session && <Nav className="mr-auto">
+            <Nav.Link href="#">Session start from: {cartStore.sessionStart}</Nav.Link>
+            <Button onClick={async () => await handleEndSessionClick()} type="link" >End Session</Button>
+          </Nav>}
+          {!cartStore.session &&
+            <Nav className="mr-auto">
+              <Button onClick={async () => await handleStartSessionClick()} type="link" >Start Session</Button>
+            </Nav>
+          }
+          <h4>
+            <Clock format={commonStore.hourMinusFormat} ticking={true} />
+          </h4>
+        </Navbar>
+      </div>
+      {cartStore.session && <div style={{
+        background: "white", width: "97%",
+        margin: "auto",
+        'border-radius': "17px",
+        'margin-top': "15px",
+        'padding-top': "25px",
+        'padding-bottom': "25px",
+      }}>
         <Row>
           <Col span={10} ><Cart productsInCart={cartStore.productsInCart} totalNum={cartStore.totalNum} totalAmount={cartStore.totalAmount} isCheckout={cartStore.isCheckout} /></Col>
           {(!cartStore.isCheckout) && <Col span={12} offset={1}>
@@ -320,7 +364,7 @@ const HomePage = () => {
           </Col>}
         </Row>
         <br />
-      </div>
+      </div>}
     </>
   );
 };
