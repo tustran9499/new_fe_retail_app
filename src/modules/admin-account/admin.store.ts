@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import adminService from './admin.service';
 import { NewAccountDto } from '../account/account.dto';
 import { newAdminFormInit } from './admin.constants';
@@ -56,6 +56,10 @@ class AdminStore {
     async deleteAccount(id: number) {
         const result = await adminService.deleteAccount(id);
         return result.data?.result;
+    }
+
+    constructor() {
+        makeObservable(this);
     }
   }
   

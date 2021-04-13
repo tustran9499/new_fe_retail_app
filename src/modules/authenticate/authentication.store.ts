@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import authenticateService from './authenticate.service';
 import { removeFromStorage, saveToStorage } from '../../common/utils/storage.util';
 import { LoginDto } from '../account/account.dto';
@@ -87,6 +87,10 @@ export default class AuthenticationStore {
       this.tmpUser = result;
     }
     return result;
+  }
+
+  constructor() {
+    makeObservable(this);
   }
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import accountService from './account.service';
 import { CreateUserDto, UpdateAccountRequestDto } from './account.dto';
 
@@ -71,6 +71,10 @@ class AccountStore {
   async deleteAccountFile(id: number, type: number) {
     const data = await accountService.deleteFiles(id, type);
     return data;
+  }
+
+  constructor() {
+    makeObservable(this);
   }
 }
   

@@ -62,7 +62,8 @@ const CustomerAccountForm = (props: ComponentProps) => {
    * Validation
    */
   const schema = yup.object({
-    firstName: yup.string().notRequired(),
+    fName: yup.string().notRequired(),
+    lName: yup.string().notRequired(),
     email: yup.string().email(VALIDATE_EMAIL).notRequired(),
     phoneNumber: yup
       .string()
@@ -105,26 +106,82 @@ const CustomerAccountForm = (props: ComponentProps) => {
             <Form.Row className="company-info">
               <Container fluid>
                 <Row>
-                  <Form.Group
+                <Form.Group
                     as={Col}
                     xs={12}
                     lg={7}
-                    controlId="customerType"
-                    className="form-group-customerType"
+                    controlId="email"
+                    className="form-group-email"
                   >
-                    <Form.Label className="form-label">Test</Form.Label>
+                    <Form.Label className="form-label">
+                      Email
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="email"
+                      value={values.Email}
+                      onChange={handleChange}
+                      isInvalid={!!errors.email}
+                      readOnly
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email}
+                    </Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="fName"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                      Firstname
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.FName ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.fName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.fName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="lName"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                      Lastname
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.LName ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.lName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.lName}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group
                     as={Col}
                     xs={12}
-                    lg={5}
+                    lg={2}
                     className="form-group-verifiedStatus"
                   >
                     <Form.Label className="form-label">
                     Account Status
                     </Form.Label>
                     <div className="account-status">
-                      {authStore.loggedUser.EmailVerfied ? 'Verified' : 'Not Verified'}
+                      {authStore.loggedUser.EmailVerified ? 'Verified' : 'Not Verified'}
+                      {console.log(authStore.loggedUser)}
                     </div>
                     <OverlayTrigger
                       key={"top"}
@@ -139,50 +196,6 @@ const CustomerAccountForm = (props: ComponentProps) => {
                         <span className="ico ico-faq"></span>
                       </div>
                     </OverlayTrigger>
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group
-                    as={Col}
-                    xs={12}
-                    lg={7}
-                    controlId="email"
-                    className="form-group-email"
-                  >
-                    <Form.Label className="form-label">
-                      Email
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="email"
-                      value={values.email}
-                      onChange={handleChange}
-                      isInvalid={!!errors.email}
-                      readOnly
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.email}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group
-                    as={Col}
-                    xs={12}
-                    lg={5}
-                    controlId="firstName"
-                    className="form-group-firstName"
-                  >
-                    <Form.Label className="form-label">
-                      Firstname
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={values.firstName ?? ""}
-                      onChange={handleChange}
-                      isInvalid={!!errors.firstName}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.firstName}
-                    </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <Row>

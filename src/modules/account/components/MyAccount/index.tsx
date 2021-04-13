@@ -35,7 +35,7 @@ const MyAccount = (props: ComponentProps) => {
     if (avatar.file) {
       const result = await accountStore.uploadAvatar(
         avatar.file,
-        authStore.loggedUser.id
+        authStore.loggedUser.Id
       );
       if (result) {
         toast.dismiss();
