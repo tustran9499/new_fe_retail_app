@@ -8,4 +8,5 @@ export interface Product {
   ReorderLevel: number;
   Discontinued: boolean;
   PhotoURL: string;
+  Category: any;
 }

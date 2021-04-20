@@ -57,6 +57,7 @@ class ProductService {
         key: key,
       },
     });
+    console.log(result.data)
     return result.data;
   }
 

@@ -124,9 +124,10 @@ const HomePage = () => {
       sorter: false,
     },
     {
-      title: "CategoryId",
-      dataIndex: "CategoryId",
+      title: "Category",
+      dataIndex: "Category",
       sorter: false,
+      render: (record) => record.CategoryName
     },
     {
       title: "QuantityPerUnit",
