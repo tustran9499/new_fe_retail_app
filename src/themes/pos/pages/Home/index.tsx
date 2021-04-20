@@ -194,6 +194,10 @@ const HomePage = () => {
     await cartStore.startSession();
   }
 
+  const handleConfirmOrderClick = async () => {
+    await cartStore.confirmOrder();
+  }
+
   const { Search } = Input;
 
   return (
@@ -352,7 +356,7 @@ const HomePage = () => {
                     <Input disabled={cartStore.isCheckout} value={returnCash} />
                   </Form.Item>
                   <Form.Item style={{ textAlign: 'right' }}>
-                    <Button type="primary" htmlType="submit">
+                    <Button onClick={async () => await handleConfirmOrderClick()} type="primary" htmlType="submit">
                       Confirm
         </Button>
                   </Form.Item>

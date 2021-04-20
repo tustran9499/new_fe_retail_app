@@ -2,6 +2,7 @@ import React from 'react';
 import { observable, action, computed, reaction, makeObservable, autorun } from 'mobx';
 import productService from '../../../modules/product/product.service';
 import cartService from '../services/cart.service'
+import orderService from '../services/order.service'
 import { message } from 'antd';
 // import { Product } from '../../../modules/product/product.dto';
 
@@ -40,6 +41,7 @@ class CartStore {
     @observable productsInCart: CartProduct[] = [];
     @observable session: string = '';
     @observable sessionStart: string = '';
+    @observable salescleckId: number = 0;
     @observable salescleckFullName: string = '';
     @observable isCheckout: boolean = false;
     @computed get totalNum() {
@@ -139,6 +141,7 @@ class CartStore {
         console.log(result);
         if (result.Salesclerk) {
             this.salescleckFullName = result.Salesclerk.FName + " " + result.Salesclerk.LName;
+            this.salescleckId = result.Salesclerk.Id;
         }
         if (result.Session) {
             this.session = result.Session.SessionId;
@@ -158,6 +161,14 @@ class CartStore {
         const result = await cartService.startNewSession();
         if (result) {
             this.getCashierInfo();
+        }
+    }
+    @action.bound
+    confirmOrder = async () => {
+        const result = await orderService.confirmOrder(this.salescleckId, this.session, this.productsInCart);
+        if (result) {
+            console.log(result);
+            await this.emptyCart();
         }
     }
     @action.bound
