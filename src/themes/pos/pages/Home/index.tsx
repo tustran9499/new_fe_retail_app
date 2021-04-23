@@ -64,10 +64,7 @@ const HomePage = () => {
   }
   React.useEffect(() => {
     initfunc();
-  }, [productStore, productStore.refetch]);
-  React.useEffect(() => autorun(() => {
-    getProducts();
-  }), []);
+  }, [productStore.refetch]);
   React.useEffect(() => {
   }, [returnCash]);
   React.useEffect(() => {

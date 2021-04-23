@@ -27,57 +27,43 @@ const { confirm } = Modal;
 const HomePage = () => {
   const productStore = React.useContext(ProductStoreContext);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [products, setProducts] = React.useState<any[]>([]);
-  const [total, setTotal] = React.useState<number>();
-  const [pagination, setPagination] = React.useState<any>({ PageNo: 1, PageSize: 10 });
-  productStore.getProducts(pagination.PageNo, pagination.PageSize);
-  const getProducts = async () => {
-    setLoading(true);
-    console.log("abc");
-    // await productStore.getProducts(pagination.PageNo, pagination.PageSize);
-    setProducts(productStore.products);
-    console.log(products)
-    setTotal(productStore.totalCount);
-    setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-    setLoading(false);
-  };
-  const initfunc = async () => {
-    setLoading(true);
-    console.log("xyz");
-    await productStore.getProducts(pagination.PageNo, pagination.PageSize);
-    setProducts(productStore.products);
-    setTotal(productStore.totalCount);
-    setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-    setLoading(false);
-  }
-  const refetch = async () => {
-    await initfunc();
-    await productStore.toggleRefetch();
-  }
-  React.useEffect(() => {
-    initfunc();
-  }, [productStore, productStore.refetch]);
-  React.useEffect(() => autorun(() => {
-    // autorun(() => {
-    //   console.log("Energy level:", productStore.products)
-    // })
-    getProducts();
-  }), []);
-
-
-
   // const getProducts = async () => {
+  //   setLoading(true);
+  //   console.log("abc");
+  //   // await productStore.getProducts(pagination.PageNo, pagination.PageSize);
+  //   setProducts(productStore.products);
+  //   console.log(products)
+  //   setTotal(productStore.totalCount);
+  //   setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
+  //   setLoading(false);
+  // };
+  // const initfunc = async () => {
+  //   setLoading(true);
+  //   console.log("xyz");
   //   await productStore.getProducts(pagination.PageNo, pagination.PageSize);
   //   setProducts(productStore.products);
   //   setTotal(productStore.totalCount);
   //   setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-  // };
+  //   setLoading(false);
+  // }
+  const refetch = async () => {
+  }
+  // React.useEffect(() => {
+  //   initfunc();
+  // }, [productStore, productStore.refetch]);
+  // React.useEffect(() => autorun(() => {
+  //   // autorun(() => {
+  //   //   console.log("Energy level:", productStore.products)
+  //   // })
+  //   getProducts();
+  // }), []);
+  React.useEffect(() => {
+    setLoading(true);
+    productStore.startSearch();
+    setLoading(false);
+  }, []);
 
-  // React.useEffect(
-  //   () =>
-  //     autorun(() => getProducts()),
-  //   [], // note empty dependencies
-  // )
+
 
   const showTotal = (total: number) => {
     return `Total ${total} items`;
@@ -87,13 +73,10 @@ const HomePage = () => {
     setLoading(true);
     console.log("Page: ", pageNumber);
     console.log("PageSize: ", pageSize);
-    console.log("PreviousPageSize: ", pagination.PageSize);
-    if (pageNumber == 0 || pageSize != pagination.PageSize) pageNumber = 1;
+    console.log("PreviousPageSize: ", productStore.pageSize);
+    if (pageNumber == 0 || pageSize != productStore.pageSize) pageNumber = 1;
     console.log("Page: ", pageNumber);
     await productStore.changePage(pageNumber, pageSize);
-    setProducts(productStore.products);
-    setTotal(productStore.totalCount);
-    setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
     setLoading(false);
   }
 
@@ -105,12 +88,6 @@ const HomePage = () => {
       async onOk() {
         setLoading(true)
         await productStore.deleteProduct(row.Id);
-        await productStore.toggleRefetch();
-        // return new Promise((resolve, reject) => {
-        //   setProducts(productStore.products);
-        //   setTimeout(Math.random() > 0.5 ? resolve : reject, 2000);
-        // }).catch(() => console.log("opps error"));
-        setProducts(productStore.products);
         setLoading(false)
       },
       onCancel() { },
@@ -178,7 +155,6 @@ const HomePage = () => {
   ];
 
   // getProducts();
-  const initf = () => { productStore.getProducts(pagination.PageNo, pagination.PageSize); };
 
   const callback = (key: any) => {
     console.log(key);
@@ -195,7 +171,7 @@ const HomePage = () => {
   return (
     <>
       <div style={{ background: "white" }}>
-        {console.log(products)}
+        {console.log(productStore.products)}
         {/* <Row style={{ marginLeft: '10px' }}>Home Page</Row>
         <Row style={{ marginLeft: '10px' }}>Test products</Row> */}
         <br />
@@ -204,7 +180,7 @@ const HomePage = () => {
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Table" key="1">
             <Spin spinning={loading}>
-              <Table<Product> columns={columns} dataSource={products} rowKey={(record) => record.Id} pagination={false} />
+              <Table<Product> columns={columns} dataSource={productStore.products} rowKey={(record) => record.Id} pagination={false} />
             </Spin>
           </TabPane>
           <TabPane tab="Cards" key="2">
@@ -219,7 +195,7 @@ const HomePage = () => {
                   xl: 3,
                   xxl: 4,
                 }}
-                dataSource={products}
+                dataSource={productStore.products}
                 renderItem={product => (
                   <List.Item>
                     <Card
@@ -261,7 +237,7 @@ const HomePage = () => {
             <Pagination
               showQuickJumper
               defaultCurrent={1}
-              total={total}
+              total={productStore.totalCount}
               showTotal={showTotal}
               defaultPageSize={10}
               onChange={onChange}
