@@ -62,9 +62,9 @@ const HomePage = () => {
     await initfunc();
     await productStore.toggleRefetch();
   }
-  React.useEffect(() => {
-    initfunc();
-  }, [productStore.refetch]);
+  // React.useEffect(() => {
+  //   initfunc();
+  // }, [productStore.refetch]);
   React.useEffect(() => {
   }, [returnCash]);
   React.useEffect(() => {

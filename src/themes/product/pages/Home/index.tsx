@@ -26,41 +26,10 @@ const { confirm } = Modal;
 
 const HomePage = () => {
   const productStore = React.useContext(ProductStoreContext);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  // const getProducts = async () => {
-  //   setLoading(true);
-  //   console.log("abc");
-  //   // await productStore.getProducts(pagination.PageNo, pagination.PageSize);
-  //   setProducts(productStore.products);
-  //   console.log(products)
-  //   setTotal(productStore.totalCount);
-  //   setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-  //   setLoading(false);
-  // };
-  // const initfunc = async () => {
-  //   setLoading(true);
-  //   console.log("xyz");
-  //   await productStore.getProducts(pagination.PageNo, pagination.PageSize);
-  //   setProducts(productStore.products);
-  //   setTotal(productStore.totalCount);
-  //   setPagination({ PageNo: productStore.pageNum, PageSize: productStore.pageSize });
-  //   setLoading(false);
-  // }
   const refetch = async () => {
   }
-  // React.useEffect(() => {
-  //   initfunc();
-  // }, [productStore, productStore.refetch]);
-  // React.useEffect(() => autorun(() => {
-  //   // autorun(() => {
-  //   //   console.log("Energy level:", productStore.products)
-  //   // })
-  //   getProducts();
-  // }), []);
   React.useEffect(() => {
-    setLoading(true);
     productStore.startSearch();
-    setLoading(false);
   }, []);
 
 
@@ -70,14 +39,12 @@ const HomePage = () => {
   }
 
   const onChange = async (pageNumber: number, pageSize: any) => {
-    setLoading(true);
     console.log("Page: ", pageNumber);
     console.log("PageSize: ", pageSize);
     console.log("PreviousPageSize: ", productStore.pageSize);
     if (pageNumber == 0 || pageSize != productStore.pageSize) pageNumber = 1;
     console.log("Page: ", pageNumber);
     await productStore.changePage(pageNumber, pageSize);
-    setLoading(false);
   }
 
   const showPromiseConfirm = async (row: any) => {
@@ -86,9 +53,7 @@ const HomePage = () => {
       icon: <ExclamationCircleOutlined />,
       content: "Warning: The delete product cannot be recover",
       async onOk() {
-        setLoading(true)
         await productStore.deleteProduct(row.Id);
-        setLoading(false)
       },
       onCancel() { },
     });
@@ -140,21 +105,10 @@ const HomePage = () => {
         <Space size="middle">
           <UpdateProductModal record={record} refetch={refetch} />
           <DeleteOutlined onClick={() => showPromiseConfirm(record)} />
-          {/* <Button
-            style={{}}
-            className="p-2 h-100"
-            type="primary"
-            danger
-            onClick={() => showPromiseConfirm(record)}
-          >
-            Delete
-          </Button> */}
         </Space>
       ),
     },
   ];
-
-  // getProducts();
 
   const callback = (key: any) => {
     console.log(key);
@@ -172,19 +126,17 @@ const HomePage = () => {
     <>
       <div style={{ background: "white" }}>
         {console.log(productStore.products)}
-        {/* <Row style={{ marginLeft: '10px' }}>Home Page</Row>
-        <Row style={{ marginLeft: '10px' }}>Test products</Row> */}
         <br />
         <CreateProductModal refetch={refetch} />
         <br />
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Table" key="1">
-            <Spin spinning={loading}>
+            <Spin spinning={productStore.loading}>
               <Table<Product> columns={columns} dataSource={productStore.products} rowKey={(record) => record.Id} pagination={false} />
             </Spin>
           </TabPane>
           <TabPane tab="Cards" key="2">
-            <Spin spinning={loading}>
+            <Spin spinning={productStore.loading}>
               <List
                 grid={{
                   gutter: 16,
@@ -215,13 +167,6 @@ const HomePage = () => {
                           description={!product.Discontinued ? <Tag color="green">In stock</Tag> : <Tag color="red">Out of stock</Tag>}
                         />
                         <p>{product.QuantityPerUnit}</p>
-                        {/* <Card.Grid hoverable={false} style={gridStyle}>
-                        {product.QuantityPerUnit}
-                      </Card.Grid> */}
-                        {/* <Card.Grid style={gridStyle}>Content</Card.Grid>
-                      <Card.Grid style={gridStyle}>Content</Card.Grid>
-                      <Card.Grid style={gridStyle}>Content</Card.Grid>
-                      <Card.Grid style={gridStyle}>Content</Card.Grid> */}
                       </Skeleton>
 
                     </Card>
