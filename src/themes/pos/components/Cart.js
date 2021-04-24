@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import CartItem from './CartItem';
-import { CartStoreContext } from "../../stores/cart.store";
+import { CartStoreContext } from "../stores/cart.store";
 import { makeAutoObservable, autorun, observable } from "mobx"
 import { Table, Breadcrumb } from 'react-bootstrap';
 import { Input, Tooltip, Button, message } from 'antd';

@@ -33,7 +33,16 @@ export default class AuthenticationStore {
     if (data) {
       this._setCurrentInfo(data);
       const redirectUrl = (this.loggedUser.EmailVerified) ? url : urlNotVerified;
-      this._redirectAfterLogin(history, redirectUrl);
+      console.log(data);
+      if (data.Type == "Salescleck") {
+        this._redirectAfterLogin(history, "/pos");
+      }
+      else if (data.Type == "StoreManager") {
+        this._redirectAfterLogin(history, "/pos");
+      }
+      else {
+        this._redirectAfterLogin(history, redirectUrl);
+      }
     }
   }
 

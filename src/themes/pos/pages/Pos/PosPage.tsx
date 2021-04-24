@@ -8,7 +8,7 @@ import { ColumnsType } from "antd/es/table";
 import UpdateProductModal from "../../../../modules/product/components/ManageProduct/UpdateProductModal";
 import CreateProductModal from "../../../../modules/product/components/ManageProduct/CreateProductModal";
 import { makeAutoObservable, autorun, observable, toJS } from "mobx"
-import Cart from "./Cart";
+import Cart from "../../components/Cart";
 import { Jumbotron, Container, Breadcrumb, Navbar, Nav, Row, Col } from 'react-bootstrap';
 import '../../../../modules/product/components/ManageProduct/style.css';
 import Clock from 'react-live-clock';
@@ -40,7 +40,6 @@ const PosPage = () => {
   }, [returnCash]);
   React.useEffect(() => {
     productStore.startSearch();
-    cartStore.getCashierInfo();
   }, []);
 
   const showTotal = (total: number) => {
@@ -161,7 +160,7 @@ const PosPage = () => {
         <Row>
           <Col xs={{ span: 12, offset: 1 }} sm={{ span: 10, offset: 1 }} xl={{ span: 6, offset: 0 }}><Cart productsInCart={cartStore.productsInCart} totalNum={cartStore.totalNum} totalAmount={cartStore.totalAmount} isCheckout={cartStore.isCheckout} /></Col>
           {(!cartStore.isCheckout) && <Col xs={{ span: 10, offset: 1 }} sm={{ span: 10, offset: 1 }} xl={{ span: 6, offset: 0 }}>
-            <Breadcrumb className="mb-0 pb-0">
+            <Breadcrumb style={{ backgroundColor: '#ffe58f' }} className="mb-0 pb-0">
               <h5>Products</h5>
             </Breadcrumb>
             <Row>
@@ -209,7 +208,7 @@ const PosPage = () => {
 
                           <Skeleton loading={false} avatar active>
                             <Meta
-                              avatar={<Avatar size="small" shape="square" src={"http://127.0.0.1:4000/api/products/img/thumbnails-" + String(product.PhotoURL ? product.PhotoURL : "default.png")} />
+                              avatar={<Avatar size={48} shape="square" src={"http://127.0.0.1:4000/api/products/img/thumbnails-" + String(product.PhotoURL ? product.PhotoURL : "default.png")} />
                               }
                               title={product.ProductName}
                               description={!product.Discontinued ? <Tag color="green">In stock</Tag> : <Tag color="red">Out of stock</Tag>}

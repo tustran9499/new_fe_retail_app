@@ -9,6 +9,7 @@ import ProductLayout from "./themes/product/layout";
 import POSLayout from "./themes/pos/layout"
 import "./themes/style.scss";
 import { cssTransition, ToastContainer } from "react-toastify";
+import { Spin } from 'antd';
 
 const Zoom = cssTransition({
   enter: 'zoomIn',
@@ -21,7 +22,7 @@ const Zoom = cssTransition({
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Suspense fallback={<div>Loading... </div>}>
+      <Suspense fallback={<div><Spin /></div>}>
         <Switch>
           <Route
             path="/account"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { CartStoreContext } from "../../stores/cart.store";
-import { Input, Tooltip, Button } from 'antd';
+import { CartStoreContext } from "../stores/cart.store";
+import { Input, Tooltip, Button, message } from 'antd';
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const CartItem = ({ item, isCheckout }) => {
@@ -16,8 +16,13 @@ const CartItem = ({ item, isCheckout }) => {
         await cartStore.decreaseToCart(e);
     }
     const onChange = async (item, e) => {
-        cartStore.updateQuantity(item, e.target.value);
-        console.log('Change:', e.target.value);
+        if (!Number.isInteger(Number(e.target.value))) {
+            message.error("Invalid number!");
+        }
+        else {
+            cartStore.updateQuantity(item, e.target.value);
+            console.log('Change:', e.target.value);
+        }
     };
     const quantity = item.Quantity
     return (
