@@ -28,7 +28,7 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
         window.print();
     }
     return (
-        <div class="p-4 mr-2">
+        <div class="mr-2">
             <Breadcrumb>
                 <h5>Cart</h5>
             </Breadcrumb>

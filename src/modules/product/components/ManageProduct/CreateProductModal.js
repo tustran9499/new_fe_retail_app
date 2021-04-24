@@ -217,7 +217,6 @@ const CreateProductModal = (pros) => {
         console.log("Received values of form: ", values);
         // insertUsersApi(values);
         await productStore.createProducts(values);
-        await pros.refetch();
         setVisible(false);
     };
 

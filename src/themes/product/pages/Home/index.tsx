@@ -26,8 +26,6 @@ const { confirm } = Modal;
 
 const HomePage = () => {
   const productStore = React.useContext(ProductStoreContext);
-  const refetch = async () => {
-  }
   React.useEffect(() => {
     productStore.startSearch();
   }, []);
@@ -103,7 +101,7 @@ const HomePage = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <UpdateProductModal record={record} refetch={refetch} />
+          <UpdateProductModal record={record} />
           <DeleteOutlined onClick={() => showPromiseConfirm(record)} />
         </Space>
       ),
@@ -127,7 +125,7 @@ const HomePage = () => {
       <div style={{ background: "white" }}>
         {console.log(productStore.products)}
         <br />
-        <CreateProductModal refetch={refetch} />
+        <CreateProductModal />
         <br />
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Table" key="1">
@@ -153,7 +151,7 @@ const HomePage = () => {
                     <Card
                       style={{ width: 300, marginTop: 16 }}
                       actions={[
-                        <UpdateProductModal record={product} refetch={refetch} />,
+                        <UpdateProductModal record={product} />,
                         <DeleteOutlined onClick={() => showPromiseConfirm(product)} />
                       ]}
                     >
