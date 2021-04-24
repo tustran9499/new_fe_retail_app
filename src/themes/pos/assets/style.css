@@ -1,0 +1,29 @@
+.site-layout-content {
+    min-height: 280px;
+    padding: 24px;
+    background: #fff;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.ant-layout-content {
+    padding: 0 20px;
+}
+
+.ant-layout-header .logo {
+    float: left;
+    width: 120px;
+    height: 31px;
+    margin: 16px 24px 16px 0;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl #components-layout-demo-top .logo {
+    float: right;
+    margin: 16px 0 16px 24px;
+}
+
+.site-page-header-ghost-wrapper {
+    padding: 24px;
+    background-color: #f5f5f5;
+}

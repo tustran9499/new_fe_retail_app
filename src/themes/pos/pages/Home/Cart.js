@@ -5,7 +5,7 @@ import { CartStoreContext } from "../../stores/cart.store";
 import { makeAutoObservable, autorun, observable } from "mobx"
 import { Table, Breadcrumb } from 'react-bootstrap';
 import { Input, Tooltip, Button, message } from 'antd';
-import { PlusOutlined, MinusOutlined, DeleteOutlined, CheckOutlined, ArrowLeftOutlined, PrinterOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined, DeleteOutlined, CheckOutlined, ArrowLeftOutlined, PrinterOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
 
 const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) => {
@@ -24,13 +24,23 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
     const handleModifyClick = async () => {
         await cartStore.returnToCart();
     }
+    const handleNewOrderClick = async () => {
+        await cartStore.newOrder();
+    }
     const handleConfirmPrintClick = async () => {
+        // var content = document.getElementById("divcontents");
+        // var pri = document.getElementById("ifmcontentstoprint").contentWindow;
+        // pri.document.open();
+        // pri.document.write(content.innerHTML);
+        // pri.document.close();
+        // pri.focus();
+        // pri.print();
         window.print();
     }
     return (
         <div class="mr-2">
             <Breadcrumb>
-                <h5>Cart</h5>
+                <h5>Order</h5>
             </Breadcrumb>
             {(!isCheckout) && <Table striped bordered hover size="sm">
                 <thead>
@@ -116,7 +126,7 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                         <td>
                         </td>
                         <td class="p-0">
-                            <Button onClick={async () => await handleConfirmPrintClick()} type="link" icon={<PrinterOutlined />} >Confirm and print receipt</Button>
+                            {cartStore.isConfirm && <Button onClick={async () => await handleConfirmPrintClick()} type="link" icon={<PrinterOutlined />} >Print receipt</Button>}
                         </td>
 
                     </tr>
@@ -132,7 +142,8 @@ const Cart = observer(({ productsInCart, totalNum, totalAmount, isCheckout }) =>
                         <td>
                         </td>
                         <td class="p-0">
-                            <Button onClick={async () => await handleModifyClick()} type="link" icon={< ArrowLeftOutlined />} >Modify order</Button>
+                            {!cartStore.isConfirm && <Button onClick={async () => await handleModifyClick()} type="link" icon={< ArrowLeftOutlined />} >Modify order</Button>}
+                            {cartStore.isConfirm && <Button loading={cartStore.loading} onClick={async () => await handleNewOrderClick()} type="link" icon={<ShoppingCartOutlined />} >New order</Button>}
                         </td>
                     </tr>
                 </tbody>

@@ -39,11 +39,13 @@ interface Session {
 
 class CartStore {
     @observable productsInCart: CartProduct[] = [];
+    @observable loading: boolean = true;
     @observable session: string = '';
     @observable sessionStart: string = '';
     @observable salescleckId: number = 0;
     @observable salescleckFullName: string = '';
     @observable isCheckout: boolean = false;
+    @observable isConfirm: boolean = false;
     @computed get totalNum() {
         let total = 0;
         for (let item of this.productsInCart) {
@@ -132,11 +134,20 @@ class CartStore {
         this.isCheckout = true;
     }
     @action.bound
+    newOrder = async () => {
+        this.loading = true;
+        this.emptyCart();
+        this.isConfirm = false;
+        this.isCheckout = false;
+        this.loading = false;
+    }
+    @action.bound
     returnToCart = async () => {
         this.isCheckout = false;
     }
     @action.bound
     getCashierInfo = async () => {
+        this.loading = true;
         const result = await cartService.getCashierInfo();
         console.log(result);
         if (result.Salesclerk) {
@@ -147,28 +158,34 @@ class CartStore {
             this.session = result.Session.SessionId;
             this.sessionStart = result.Session.Start;
         }
+        this.loading = false;
     }
     @action.bound
     endSession = async () => {
+        this.loading = true;
         const result = await cartService.endSession(this.session);
         if (result) {
             this.session = "";
             this.sessionStart = "";
         }
+        this.loading = false;
     }
     @action.bound
     startSession = async () => {
+        this.loading = true;
         const result = await cartService.startNewSession();
         if (result) {
             this.getCashierInfo();
         }
+        this.loading = false;
     }
     @action.bound
     confirmOrder = async () => {
         const result = await orderService.confirmOrder(this.salescleckId, this.session, this.productsInCart);
         if (result) {
+            message.success("Create order successfully!");
             console.log(result);
-            await this.emptyCart();
+            this.isConfirm = true;
         }
     }
     @action.bound
