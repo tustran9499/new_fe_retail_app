@@ -4,10 +4,10 @@ import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { AuthenticationStoreContext } from '../../../authenticate/authentication.store';
-import { AccountStoreContext } from '../../account.store';
 import { I18N } from '../../../../i18n.enum';
-import { REFERENCE_TYPE } from '../../referenceType.enum';
-import AccountForm from '../AccountForm';
+import { REFERENCE_TYPE } from '../../../account/referenceType.enum';
+import AccountForm from '../../../account/components/AccountForm';
+import { AccountStoreContext } from '../../../account/account.store';
 
 interface ComponentProps {
   className?: string;
@@ -15,9 +15,10 @@ interface ComponentProps {
   handleChangeType?: any;
 }
 
-const MyAccount = (props: ComponentProps) => {
+const EditAccount = (props: ComponentProps) => {
   const authStore = React.useContext(AuthenticationStoreContext);
   const accountStore = React.useContext(AccountStoreContext);
+  let id: number = 0;
 
   /*
    * Props of Component
@@ -35,7 +36,7 @@ const MyAccount = (props: ComponentProps) => {
     if (avatar.file) {
       const result = await accountStore.uploadAvatar(
         avatar.file,
-        authStore.loggedUser.Id
+        id
       );
       if (result) {
         toast.dismiss();
@@ -52,9 +53,9 @@ const MyAccount = (props: ComponentProps) => {
     accountStore.setAccountForm(values);
     const result = await uploadFiles();
     if (result) {
-      const data = await accountStore.updateAccount(authStore.loggedUser.Id);
+      const data = await accountStore.updateAccount(id);
       if (data) {
-        const user = await accountStore.getAccountInfo(authStore.loggedUser.Id);
+        const user = await accountStore.getAccountInfo(id);
         authStore.setLoggedUser(user ?? authStore.loggedUser);
         toast.dismiss();
         toast.success(MESSAGES_UPDATE_SUCCESS);
@@ -71,7 +72,7 @@ const MyAccount = (props: ComponentProps) => {
   const handleDelete = async (type: REFERENCE_TYPE) => {
     if (type === REFERENCE_TYPE.PROFILE_IMG) {
       const result = accountStore.deleteAccountFile(
-        authStore.loggedUser.id,
+        id,
         REFERENCE_TYPE.PROFILE_IMG
       );
       if (result) {
@@ -88,6 +89,9 @@ const MyAccount = (props: ComponentProps) => {
   };
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    id = parseInt(window.location.pathname.split('/')[1]);
+    console.log(window.location.pathname);
     if (authStore.loggedUser) {
       setInitData(authStore.loggedUser);
     }
@@ -109,4 +113,4 @@ const MyAccount = (props: ComponentProps) => {
   );
 };
 
-export default observer(MyAccount);
+export default observer(EditAccount);

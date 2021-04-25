@@ -38,7 +38,7 @@ interface ComponentProps {
 
 const CustomerAccountForm = (props: ComponentProps) => {
   const authStore = React.useContext(AuthenticationStoreContext);
-
+  
   /*
    * Props of Component
    */
@@ -62,10 +62,10 @@ const CustomerAccountForm = (props: ComponentProps) => {
    * Validation
    */
   const schema = yup.object({
-    fName: yup.string().notRequired(),
-    lName: yup.string().notRequired(),
-    email: yup.string().email(VALIDATE_EMAIL).notRequired(),
-    phoneNumber: yup
+    FName: yup.string().notRequired(),
+    LName: yup.string().notRequired(),
+    Email: yup.string().email(VALIDATE_EMAIL).notRequired(),
+    Homephone: yup
       .string()
       .matches(PHONE_REGEXP, VALIDATE_PHONE)
       .notRequired(),
@@ -110,7 +110,7 @@ const CustomerAccountForm = (props: ComponentProps) => {
                     as={Col}
                     xs={12}
                     lg={7}
-                    controlId="email"
+                    controlId="Email"
                     className="form-group-email"
                   >
                     <Form.Label className="form-label">
@@ -134,7 +134,7 @@ const CustomerAccountForm = (props: ComponentProps) => {
                     as={Col}
                     xs={12}
                     lg={5}
-                    controlId="fName"
+                    controlId="FName"
                     className="form-group-firstName"
                   >
                     <Form.Label className="form-label">
@@ -144,17 +144,17 @@ const CustomerAccountForm = (props: ComponentProps) => {
                       type="text"
                       value={values.FName ?? ""}
                       onChange={handleChange}
-                      isInvalid={!!errors.fName}
+                      isInvalid={!!errors.FName}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.fName}
+                      {errors.FName}
                     </Form.Control.Feedback>
                   </Form.Group>
                 <Form.Group
                     as={Col}
                     xs={12}
                     lg={5}
-                    controlId="lName"
+                    controlId="LName"
                     className="form-group-firstName"
                   >
                     <Form.Label className="form-label">
@@ -164,10 +164,10 @@ const CustomerAccountForm = (props: ComponentProps) => {
                       type="text"
                       value={values.LName ?? ""}
                       onChange={handleChange}
-                      isInvalid={!!errors.lName}
+                      isInvalid={!!errors.LName}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.lName}
+                      {errors.LName}
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group
@@ -179,9 +179,8 @@ const CustomerAccountForm = (props: ComponentProps) => {
                     <Form.Label className="form-label">
                     Account Status
                     </Form.Label>
-                    <div className="account-status">
+                    <div className={authStore.loggedUser.EmailVerified ? 'account-status account-status-verified' : 'account-status account-status-unverified'}>
                       {authStore.loggedUser.EmailVerified ? 'Verified' : 'Not Verified'}
-                      {console.log(authStore.loggedUser)}
                     </div>
                     <OverlayTrigger
                       key={"top"}
@@ -196,6 +195,280 @@ const CustomerAccountForm = (props: ComponentProps) => {
                         <span className="ico ico-faq"></span>
                       </div>
                     </OverlayTrigger>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="Title"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Title
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Title ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="TitleOfCourtesy"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Title Of Courtesy
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.TitleOfCourtesy ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.LName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.LName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={2}
+                    controlId="Type"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Type
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Type ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.LName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.LName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="Password"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Password
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Password ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="Birthday"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Birthday
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Birthday ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.LName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.LName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="HireDate"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Hire Date
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.HireDate ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={2}
+                    controlId="HomePhone"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Phone Number
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.HomePhone ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.LName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.LName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="Country"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Country
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Country ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="PostalCode"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    PostalCode
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.PostalCode ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.LName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.LName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="City"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    City
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.City ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={5}
+                    controlId="Region"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Region
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Region ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.LName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.LName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={12}
+                    controlId="Address"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Address
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Address ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+                <Row>
+                <Form.Group
+                    as={Col}
+                    xs={12}
+                    lg={12}
+                    controlId="Notes"
+                    className="form-group-firstName"
+                  >
+                    <Form.Label className="form-label">
+                    Notes
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={values.Notes ?? ""}
+                      onChange={handleChange}
+                      isInvalid={!!errors.FName}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.FName}
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <Row>

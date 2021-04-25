@@ -15,7 +15,6 @@ class AdminService {
 
   public async getAccountById(id: number) {
     const result = await http.get(`${this.accountPrefix}/${id}`);
-    console.log(result.data);
     return result.data;
   }
 

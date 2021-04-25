@@ -74,4 +74,16 @@ export const accountsRoutes = [
     isLayout: false,
     isGuarded: false,
   },
+  {
+    path: '/account/edit/:id',
+    name: 'Edit Accounts',
+    title: 'Edit Accounts',
+    exact: true,
+    permission: '',
+    component: React.lazy(
+      () => import('../../../modules/admin-account/pages/EditAccount')
+    ),
+    isLayout: false,
+    isGuarded: false,
+  },
 ];

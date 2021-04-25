@@ -2,9 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import AdminWrapper from '../../../admin-account/components/AdminWrapper';
 import { AuthenticationStoreContext } from '../../../authenticate/authentication.store';
-import MyAccount from '../../components/MyAccount';
+import EditAccount from '../../components/EditAccount';
 
-const SetupCustomerPage = () => {
+const EditAccountAdminPage = () => {
   const authStore = React.useContext(AuthenticationStoreContext);
 
   React.useEffect(() => {}, [
@@ -13,10 +13,10 @@ const SetupCustomerPage = () => {
 
   return (
     <>
-      <AdminWrapper pageTitle={"Account Setup"}>
+      <AdminWrapper pageTitle={"Account Detail"}>
         {authStore.loggedUser && (
           <>
-            <MyAccount/>
+            <EditAccount/>
           </>
         )}
       </AdminWrapper>
@@ -24,4 +24,4 @@ const SetupCustomerPage = () => {
   );
 };
 
-export default observer(SetupCustomerPage);
+export default observer(EditAccountAdminPage);

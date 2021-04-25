@@ -6,6 +6,7 @@ import logoSvg from "../../../../../src/logo.svg";
 import { LogoDto } from "../../../../common/dto/Logo.dto";
 import NotificationSummary from "../../../notification/components/Summary";
 import AccountSummary from "../../../account/components/AccountSummary";
+//import './top-menu.scss';
 
 /*
  * Props of Component
@@ -54,9 +55,10 @@ const AdminTopMenu = (props: ComponentProps) => {
             />
           </div>
         )}
-      </div>
+        
       <NotificationSummary />
       <AccountSummary />
+      </div>
     </>
   );
 };

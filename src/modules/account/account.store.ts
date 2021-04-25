@@ -1,7 +1,7 @@
 import React from 'react';
 import { observable, action, makeObservable } from 'mobx';
 import accountService from './account.service';
-import { CreateUserDto, UpdateAccountRequestDto } from './account.dto';
+import { CreateUserDto } from './account.dto';
 
 class AccountStore {
   @observable accounts: Account[] = [];
@@ -11,7 +11,7 @@ class AccountStore {
     password: '',
     homephone: '',
   };
-  @observable accountForm: UpdateAccountRequestDto = {};
+  @observable accountForm: any = {};
   @observable currentUserDetail: any = null;
 
   @action
@@ -50,8 +50,7 @@ class AccountStore {
 
   @action
   async setAccountForm(data: any) {
-    this.accountForm.phoneNumber = data.phoneNumber;
-    this.accountForm.firstName = data.firstName;
+    this.accountForm = data;
   }
 
   @action

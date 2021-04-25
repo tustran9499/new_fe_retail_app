@@ -1,6 +1,6 @@
 import http from "../../common/sevices";
 import { removeConfirmationFields } from "../../common/utils/apis.util";
-import { CreateUserDto, UpdateAccountRequestDto } from "./account.dto";
+import { CreateUserDto} from "./account.dto";
 import { DEFAULT_API } from "./router.enum";
 
 class AccountService {
@@ -22,7 +22,6 @@ class AccountService {
       `${this.accountPrefix}/`,
       excludedModel
     );
-    console.log(result)
     return result.data;
   }
 
@@ -54,7 +53,7 @@ class AccountService {
     return result.data;
   }
 
-  public async updateAccount(model: UpdateAccountRequestDto, id: number) {
+  public async updateAccount(model: any, id: number) {
     const result = await http.put(`${this.accountPrefix}/${id}`, model);
     return result.data;
   }
