@@ -62,18 +62,23 @@ class CartStore {
     }
     @action.bound
     addToCart = async (product: Product) => {
-        let found = false;
-        await this.productsInCart.map(item => {
-            if (item.Id === product.Id) {
-                item.Quantity += 1;
-                item.Total = Number((item.UnitPrice * item.Quantity).toFixed(2));
-                found = true;
-                const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
-                this.productsInCart.splice(index, 1, item);
+        if (product.Discontinued) {
+            message.error("Selected item is out of stock now!");
+        }
+        else {
+            let found = false;
+            await this.productsInCart.map(item => {
+                if (item.Id === product.Id) {
+                    item.Quantity += 1;
+                    item.Total = Number((item.UnitPrice * item.Quantity).toFixed(2));
+                    found = true;
+                    const index = this.productsInCart.findIndex(({ Id }) => Id === product.Id);
+                    this.productsInCart.splice(index, 1, item);
+                }
+            });
+            if (!found) {
+                await this.productsInCart.push({ ...product, Quantity: 1, Total: product.UnitPrice });
             }
-        });
-        if (!found) {
-            await this.productsInCart.push({ ...product, Quantity: 1, Total: product.UnitPrice });
         }
     }
     @action.bound
