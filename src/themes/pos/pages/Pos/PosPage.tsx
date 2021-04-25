@@ -37,7 +37,7 @@ const PosPage = () => {
   const [total, setTotal] = React.useState<number>();
   const [returnCash, setReturnCash] = React.useState<number>(0);
   React.useEffect(() => {
-  }, [returnCash]);
+  }, [returnCash, cartStore.loading]);
   React.useEffect(() => {
     productStore.startSearch();
   }, []);

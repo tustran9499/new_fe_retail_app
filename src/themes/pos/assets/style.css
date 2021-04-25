@@ -93,6 +93,12 @@ a:hover {
     color: #e9b91f;
 }
 
+@media print {
+    button {
+        visibility: hidden;
+    }
+}
+
 
 /* .ant-input,
 .ant-input:hover,
