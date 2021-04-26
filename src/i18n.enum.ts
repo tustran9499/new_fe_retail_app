@@ -3,6 +3,7 @@ export enum I18N {
     VALIDATE_EMAIL = 'Please enter a valid email address (Ex: johndoe@domain.com)',
     VALIDATE_REQUIRED = 'This is a required field',
     VALIDATE_PHONE = 'Phone number is not valid',
+    VALIDATE_NUMBER = 'Number is not valid',
     VALIDATE_CONFIRM_PASSWORD = 'Please enter the same value',
     ADMIN_NEW_ACCOUNT = 'New Account',
     ADMIN_EDIT_ACCOUNT = 'Edit Account',
@@ -26,6 +27,7 @@ export enum I18N {
     BUTTONS_SIGNUP = 'Signup',
     BUTTONS_ADD_NEW = 'New',
     BUTTONS_RESTORE = 'Restore',
+    BUTTONS_CHOOSE_IMAGE = 'Choose image',
     PLACEHOLDER_EMAIL = 'Please enter your email here',
     PLACEHOLDER_PASSWORD = 'Please enter your pass word here',
     PLACEHOLDER_CONFIRM_PASSWORD = 'Confirm password',
@@ -44,4 +46,6 @@ export enum I18N {
     MESSAGES_UPDATE_SUCCESS = 'Updated successfully',
     MESSAGES_CREATED_SUCCESS = 'Created successfully',
     ADMIN_MENU_LOG_OUT = 'Log out',
+    TOPMENU_WELCOME = 'Welcome',
+    MENU_ACCOUNT_SETUP = 'Account setup'
 }

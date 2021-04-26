@@ -35,6 +35,14 @@ export interface UpdateAccountDto {
   companyId?: string;
 }
 
+export interface UpdateAccountRequestDto {
+  phoneNumber?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  password?: string;
+}
+
 export interface CreateEmployeeDto {
   email?: string;
   password?: string;

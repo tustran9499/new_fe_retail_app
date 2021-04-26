@@ -1,9 +1,12 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { useHistory } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
-import logoSvg from '../../../../../src/logo.svg';
-import { LogoDto } from '../../../../common/dto/Logo.dto';
+import React from "react";
+import { observer } from "mobx-react-lite";
+import { useHistory } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import logoSvg from "../../../../../src/logo.svg";
+import { LogoDto } from "../../../../common/dto/Logo.dto";
+import NotificationSummary from "../../../notification/components/Summary";
+import AccountSummary from "../../../account/components/AccountSummary";
+//import './top-menu.scss';
 
 /*
  * Props of Component
@@ -22,9 +25,9 @@ const AdminTopMenu = (props: ComponentProps) => {
   const {
     className,
     logo = {
-      className: '',
+      className: "",
       url: logoSvg,
-      alt: 'Logo',
+      alt: "Logo",
     },
   } = props;
 
@@ -32,26 +35,29 @@ const AdminTopMenu = (props: ComponentProps) => {
    * Setting logo responsive
    */
   const isMobile = useMediaQuery({
-    query: '(max-width: 991px)',
+    query: "(max-width: 991px)",
   });
 
   return (
     <>
-      <div className={`top-menu ${className ? className : ''}`}>
+      <div className={`top-menu ${className ? className : ""}`}>
         {isMobile && (
           <div
             onClick={() => {
-              history.push('/');
+              history.push("/");
             }}
             className="logo-menu"
           >
             <img
-              className={logo.className ? logo.className : ''}
-              src={logo.url ? logo.url : ''}
-              alt={logo.alt ? logo.alt : 'Logo'}
+              className={logo.className ? logo.className : ""}
+              src={logo.url ? logo.url : ""}
+              alt={logo.alt ? logo.alt : "Logo"}
             />
           </div>
         )}
+        
+      <NotificationSummary />
+      <AccountSummary />
       </div>
     </>
   );

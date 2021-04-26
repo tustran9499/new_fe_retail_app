@@ -1,5 +1,5 @@
 import React from 'react';
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import accountService from './account.service';
 import { CreateUserDto } from './account.dto';
 
@@ -11,6 +11,8 @@ class AccountStore {
     password: '',
     homephone: '',
   };
+  @observable accountForm: any = {};
+  @observable currentUserDetail: any = null;
 
   @action
   async getAccounts(skip: number, take: number) {
@@ -38,6 +40,40 @@ class AccountStore {
       password: '',
       homephone: '',
     };
+  }
+
+  @action
+  async uploadAvatar(formData: any, id: number) {
+    const data = await accountService.uploadAvatar(formData, id);
+    return data;
+  }
+
+  @action
+  async setAccountForm(data: any) {
+    this.accountForm = data;
+  }
+
+  @action
+  async getAccountInfo(id: number) {
+    const data = await accountService.getAccountInfo(id);
+    this.currentUserDetail = data;
+    return data;
+  }
+
+  @action
+  async updateAccount(id: number) {
+    const data = await accountService.updateAccount(this.accountForm, id);
+    return data;
+  }
+
+  @action
+  async deleteAccountFile(id: number, type: number) {
+    const data = await accountService.deleteFiles(id, type);
+    return data;
+  }
+
+  constructor() {
+    makeObservable(this);
   }
 }
   
