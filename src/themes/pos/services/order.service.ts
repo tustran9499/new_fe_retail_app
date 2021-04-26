@@ -21,7 +21,7 @@ interface CartProduct {
 }
 
 class OrderService {
-    orderPrefix: string = "http://localhost:4000/api/orders";
+    orderPrefix: string = "https://warehouse-retail.herokuapp.com/api/orders";
 
     public async confirmOrder(SalescleckId: number, SessionId: string, cartproducts: CartProduct[]) {
         const result = await http.post(`${this.orderPrefix}`, {
